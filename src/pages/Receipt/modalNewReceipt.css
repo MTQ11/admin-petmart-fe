@@ -1,0 +1,121 @@
+.modal-main-reciep {
+    width: 80%;
+    max-height: 70%; /* Chiều cao tối đa của modal */
+    overflow-y: auto; /* Cho phép cuộn nội dung nếu nội dung quá dài */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    text-align: center; /* Canh giữa nội dung trong modal */
+}
+
+.modal-main-reciep h2 {
+    margin-bottom: 10px;
+    text-align: center; /* Canh giữa tiêu đề */
+}
+.modal-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center; /* Căn giữa các phần tử trong header */
+    margin-bottom: 20px; /* Tạo khoảng cách với phần nội dung phía dưới */
+}
+
+.input-list-product{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    text-align: left; /* Canh giữa nội dung trong input và textarea */
+    margin: auto; /* Canh giữa các input và button */
+}
+
+.modal-list-product {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Sắp xếp theo lưới với mỗi ảnh có độ rộng tối thiểu 120px */
+    gap: 5px; /* Khoảng cách giữa các ô ảnh */
+    width: 500px;
+    height: 300px; /* Đặt chiều cao tối đa */
+    overflow-y: auto; /* Cho phép cuộn theo trục y khi nội dung vượt quá chiều cao */
+}
+
+.product-item {
+    cursor: pointer; /* Biến con trỏ thành bàn phím khi di chuột qua ảnh */
+    text-align: center; /* Căn giữa văn bản trong ô */
+}
+
+.product-item p{
+    text-align: center; /* Căn giữa văn bản trong ô */
+    white-space: nowrap; /* Ngăn văn bản bị ngắt dòng */
+    overflow: hidden; /* Ẩn văn bản bị tràn ra ngoài ô */
+    text-overflow: ellipsis; /* Thêm dấu chấm (...) cho văn bản bị ẩn */
+}
+
+.product-item img {
+    width: 50px; /* Ảnh chiếm toàn bộ kích thước của ô */
+    height: auto; /* Đảm bảo tỷ lệ khung hình được giữ nguyên */
+    max-height: 100px; /* Đặt chiều cao tối đa cho ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+}
+
+.modal-info {
+    background-color: #ddd;
+    width: 500px;
+    padding: 20px;
+    border-radius: 20px;
+    border: #ccc;
+}
+
+.modal-info div {
+    margin-bottom: 10px;
+    text-align: left; /* Canh trái cho các thành phần thông tin */
+}
+
+.modal-info input,
+.modal-info textarea,
+.modal-info-product input,
+.modal-info-product button {
+    width: calc(100% - 20px); /* Chiều rộng của input và textarea, trừ đi khoảng cách padding */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    text-align: center; /* Canh giữa nội dung trong input và textarea */
+    margin: auto; /* Canh giữa các input và button */
+}
+
+.modal-info-product table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    text-align: center; /* Canh giữa nội dung trong bảng */
+}
+
+.modal-info-product th,
+.modal-info-product td {
+    padding: 5px;
+    border: 1px solid #ddd;
+    text-align: center; /* Canh giữa nội dung trong ô của bảng */
+}
+
+/* CSS cho nút điều hướng */
+.modal-button {
+    display: flex; /* Hiển thị các nút theo chiều ngang */
+    justify-content: center; /* Căn giữa các nút theo chiều ngang */
+    margin-top: 20px; /* Khoảng cách từ các nút đến nội dung trên */
+}
+
+.modal-button button {
+    margin: 0 10px; /* Khoảng cách giữa các nút */
+    padding: 8px 20px; /* Kích thước nút */
+    border-radius: 5px; /* Bo tròn viền của nút */
+    border: none; /* Loại bỏ viền của nút */
+    cursor: pointer; /* Con trỏ chuột thành bàn tay khi di chuột qua nút */
+    font-size: 16px; /* Kích thước chữ của nút */
+    background-color: #007bff; /* Màu nền của nút */
+    color: #fff; /* Màu chữ của nút */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu nền khi di chuột qua nút */
+}
+
+.modal-button button:hover {
+    background-color: #0056b3; /* Màu nền của nút khi di chuột qua */
+}
+

@@ -1,0 +1,59 @@
+.type-product-container {
+    width: 100%;
+    padding-top: 80px;
+    z-index: 900;
+    margin: 0 0 0 350px;
+    width: 75%;
+    overflow-y: auto;
+    max-height: 550px;
+}
+
+.type-product-container button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.type-product-container button:hover {
+    background-color: #0056b3;
+}
+
+.type-product-container input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #000;
+    margin-bottom: 10px;
+    outline: none; /* Ẩn viền của ô input */
+}
+
+.type-product-container table {
+    border-collapse: collapse; /* Ẩn viền của bảng */
+    width: 100%;
+}
+
+.type-product-container th,
+.type-product-container td {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+.type-product-container th {
+    background-color: #f2f2f2;
+}
+
+.type-product-container tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.type-product-container tbody tr:hover {
+    background-color: #ddd;
+}

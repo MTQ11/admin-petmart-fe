@@ -1,0 +1,90 @@
+.dashboard-container {
+    width: calc(100% - 350px); /* 100% trừ điều chỉnh của sidebar */
+    padding-top: 80px;
+    z-index: 900;
+    margin-left: 350px; /* Dịch phải theo chiều ngang của sidebar */
+    overflow-y: auto;
+    max-height: calc(100vh - 160px); /* Tối đa chiều cao của dashboard */
+}
+
+.dashboard-container h3 {
+    font-weight: bold;
+    width: 97%;
+    background-color: #f0f0f0; /* Màu nền */
+    padding: 10px; /* Thêm padding để tạo khoảng cách xung quanh tiêu đề */
+    border: 1px solid #bebebe;
+}
+
+
+/* Phần Stats */
+.stats {
+    display: flex;
+    justify-content: space-between;
+    width: 99%;
+    margin-bottom: 20px;
+}
+
+/* Box thống kê */
+.stat-box {
+    width: 30%;
+    padding: 20px;
+    margin: 5px;
+    background: linear-gradient(to bottom, #007bff8b, #ffffff); /* Màu gradient từ xanh đến xám */
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px); /* Di chuyển lên khi hover */
+}
+
+.stat-box h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.stat-box p {
+    font-size: 18px; /* Kích thước chữ lớn hơn */
+    margin-bottom: 15px; /* Margin bottom lớn hơn */
+    color: #333; /* Màu chữ đậm hơn */
+}
+
+/* Bảng đơn hàng gần đây */
+.recent-orders table {
+    width: 99%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.recent-orders th,
+.recent-orders td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Màu đậm hơn cho các đường kẻ */
+    text-align: left; /* Căn lề văn bản sang trái */
+}
+
+.recent-orders th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.recent-orders tbody tr:nth-child(even) {
+    background-color: #fafafa; /* Màu nền nhẹ cho các hàng chẵn */
+}
+
+.recent-orders tbody tr:hover {
+    background-color: #f0f0f0; /* Tăng độ sáng khi hover */
+}
+
+/* Thông báo khi không có đơn hàng */
+.no-orders-message {
+    padding: 20px;
+    background-color: #f8d7da; /* Màu đỏ nhạt */
+    border: 1px solid #f5c6cb; /* Đường viền đỏ */
+    border-radius: 10px; /* Bo tròn viền */
+    margin-top: 20px; /* Khoảng cách với phần trên */
+    text-align: center; /* Căn giữa nội dung */
+    font-size: 16px; /* Kích thước chữ */
+    color: #721c24; /* Màu chữ */
+}

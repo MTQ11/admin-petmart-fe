@@ -1,0 +1,32 @@
+/* NotFound.css */
+
+.not-found-container {
+    width: 100%;
+    padding-top: 250px;
+    z-index: 900;
+    margin: 0 0 0 350px;
+    width: 75%;
+    overflow-y: auto;
+    max-height: 550px;
+}
+
+.not-found-container h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.not-found-container p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.back-link {
+    font-size: 16px;
+    color: #007bff;
+    /* Màu xanh dương */
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

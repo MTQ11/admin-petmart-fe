@@ -1,0 +1,100 @@
+/* Style cho component Blog */
+.blog-container {
+    max-width: 1100px; /* Điều chỉnh kích thước tối đa của container */
+    margin: 10px 0 100px 360px; /* Canh giữa container */
+}
+
+.post-form-action{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-post {
+    width: 100px;
+    transition: width 0.3s ease;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.search-post:focus {
+    width: 250px;
+}
+
+.post-form-action button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-post-button{
+    background-color: #007bff !important; 
+    color: #ffffff;
+}
+
+.category-menu {
+    display: flex;
+}
+
+.category-menu button.selected {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+
+/* Style cho danh sách các card */
+.card-list {
+    list-style: none; /* Ẩn dấu đầu dòng của danh sách */
+    padding: 0;
+    margin: 0;
+    display: grid; /* Hiển thị các card theo dạng grid */
+    grid-template-columns: repeat(3, 1fr); /* Tạo grid với các cột có kích thước tối thiểu là 250px và tự động điều chỉnh theo nội dung */
+    grid-gap: 20px; /* Khoảng cách giữa các card */
+}
+
+/* Style cho mỗi card */
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    transition: transform 0.3s ease; /* Thêm hiệu ứng chuyển động */
+}
+
+.card-content {
+    height: 220px; /* Giới hạn chiều cao của thẻ */
+    overflow: hidden;
+}
+
+.card-content img{
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+/* Hiệu ứng hover */
+.card:hover {
+    background-color: #dedede;
+    transform: translateY(-10px); /* Di chuyển card lên trên khi hover */
+}
+
+.card h2 {
+    margin-top: 0;
+    text-align: left; /* Căn trái nội dung của h2 */
+    word-wrap: break-word; /* Wrap nội dung nếu quá dài */
+}
+
+.card h3 {
+    margin-bottom: 5px;
+    text-align: left; /* Căn trái nội dung của h3 */
+    word-wrap: break-word; /* Wrap nội dung nếu quá dài */
+}
+
+.button-group button {
+    margin-right: 10px;
+}

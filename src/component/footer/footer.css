@@ -1,0 +1,9 @@
+.footer {
+    position: fixed; /* Đặt header với vị trí cố định */
+    bottom: 0; /* Đặt vị trí header ở đỉnh trang */
+    left: 0; /* Đặt vị trí header bắt đầu từ bên trái của trang */
+    right: 0; /* Đặt vị trí header kết thúc ở bên phải của trang */
+    padding: 10px 20px;
+    background-color: #f0f0f0; /* Màu nền của footer */
+    margin-top: auto; /* Kéo footer xuống dưới cùng của trang */
+}

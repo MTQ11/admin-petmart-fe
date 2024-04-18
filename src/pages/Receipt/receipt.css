@@ -1,0 +1,76 @@
+.receipt-container {
+    width: 100%;
+    padding-top: 80px; /* Tăng khoảng cách giữa header và danh sách hóa đơn */
+    z-index: 900; /* Đảm bảo container hiển thị phía trên header */
+    margin: 0 0 0 350px; /* Cách lề trái 350px */
+    width: 75%; /* Độ rộng là 75% */
+    overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung quá dài */
+    max-height: 550px; /* Đặt chiều cao tối đa */
+}
+
+#search-input {
+    width: 100px; /* Kích thước mặc định */
+    transition: width 0.3s ease; /* Hiệu ứng phóng to/thu nhỏ */
+}
+
+#search-input:focus {
+    width: 250px; /* Kích thước khi focus */
+}
+
+.receipt-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.receipt-actions input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 200px; /* Độ rộng của ô tìm kiếm */
+}
+
+.button-add-receipt {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.receipt-actions button:hover {
+    background-color: #0056b3;
+}
+
+.receipt-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.receipt-table th,
+.receipt-table td {
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.receipt-table th {
+    background-color: #f2f2f2;
+}
+
+.receipt-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.receipt-table tbody tr:hover {
+    background-color: #ddd;
+}
+
+
+
+
+

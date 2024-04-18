@@ -1,0 +1,118 @@
+.post-container{
+    display: flex;
+    z-index: 900;
+    width: 80%;
+    margin: 0 0 0 350px;
+}
+
+.post-form-container {
+    position: relative;
+    width: 600px;
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    text-decoration: underline;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background-color: #d9d9d9;
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.section {
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.section-remove-button {
+    position: absolute;
+    text-decoration: underline;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+}
+
+.section-remove-button:hover {
+    color: #f44336;
+}
+
+.button-form-post {
+    margin-top: 10px;
+    padding: 12px 20px;
+    margin: 5px;
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.button-form-post:hover {
+    background-color: #b4b4b4;
+}
+
+.post-form label {
+    display: block;
+    text-align: left;
+    opacity: 0.5;
+}
+
+.post-form input {
+    margin-bottom: 15px;
+    width: 100%;
+    height: 30px;
+}
+
+.post-form textarea {
+    margin-bottom: 15px;
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}
+
+
+.img-post-form {
+    max-width: 100px;
+    /* Đặt kích thước tối đa cho các ảnh */
+    height: auto;
+    /* Cho phép chiều cao tự điều chỉnh để giữ tỷ lệ khung hình */
+    margin-right: 10px;
+    /* Khoảng cách bên phải giữa các ảnh */
+}
+
+.remove-image-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0.2rem 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}

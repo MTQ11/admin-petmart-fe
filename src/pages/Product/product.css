@@ -1,0 +1,158 @@
+.product-container {
+    width: 100%;
+    padding-top: 80px;
+    z-index: 900;
+    margin: 0 0 0 350px;
+    width: 75%;
+    overflow-y: auto;
+    max-height: 550px;
+}
+
+#search-input {
+    width: 100px;
+    transition: width 0.3s ease;
+}
+
+#search-input:focus {
+    width: 250px;
+}
+
+.product-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.product-table th,
+.product-table td {
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.product-table th {
+    background-color: #f2f2f2;
+}
+
+.product-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.product-table tbody tr:hover {
+    background-color: #ddd;
+}
+
+.product-table img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+}
+
+.product-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.product-actions input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.product-actions button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.product-actions button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.modal.display-none {
+    display: none;
+}
+
+/* Form */
+.add-product-form div {
+    display: flex; /* Sử dụng flexbox */
+    align-items: center; /* Canh các phần tử theo chiều dọc */
+    margin-bottom: 10px; /* Khoảng cách giữa các dòng */
+    width: 400px;
+}
+
+
+.add-product-form .avatar{
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px; /* Giảm độ cong để ảnh trông tự nhiên hơn */
+    margin: 20px 0; /* Giảm khoảng cách giữa ảnh và các phần tử khác */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng bóng để tạo sâu và sự phân biệt cho ảnh */
+    margin: 0 auto; /* Thêm margin-bottom để đẩy hình ảnh xuống */
+}
+
+
+.add-product-form label {
+    flex: 0 0 120px; /* Đặt kích thước cố định cho nhãn */
+    margin-right: 10px; /* Khoảng cách giữa nhãn và trường nhập */
+}
+
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form select {
+    flex: 1; /* Đặt trường nhập để chiếm phần còn lại của dòng */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #000;
+    margin-bottom: 0; /* Loại bỏ khoảng cách dưới cùng */
+}
+
+.add-product-form .button-container {
+    display: flex;
+    justify-content: end; /* Các nút sẽ được căn chỉnh sang hai phía */
+}
+
+.add-product-form button {
+    padding: 8px 16px;
+    margin: 10px 10px 0 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-product-form button:hover {
+    background-color: #0056b3;
+}

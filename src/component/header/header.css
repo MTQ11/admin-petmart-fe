@@ -1,0 +1,127 @@
+.header {
+    position: fixed; /* Đặt header với vị trí cố định */
+    top: 0; /* Đặt vị trí header ở đỉnh trang */
+    left: 0; /* Đặt vị trí header bắt đầu từ bên trái của trang */
+    right: 0; /* Đặt vị trí header kết thúc ở bên phải của trang */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px 0 10px;
+    background-color: #f0f0f0; /* Màu nền của header */
+    z-index: 1000; /* Đảm bảo header hiển thị trên mọi nội dung khác */
+}
+
+.logo {
+    width: 17%;
+}
+
+.logo img {
+    height: 50px; /* Độ cao của logo */
+    border-radius: 50%; /* Đảm bảo logo là hình tròn */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
+    transition: transform 1s ease-in-out; /* Hiệu ứng chuyển động khi di chuột */
+}
+
+.logo img:hover {
+    transform: rotateY(360deg); /* Xoay 360 độ khi di chuột vào */
+    transition: transform 2s; /* Áp dụng hiệu ứng chuyển đổi trong 1s */
+}
+
+.search-bar {
+    flex-grow: 1; /* Thanh tìm kiếm chiếm phần còn lại của header */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-input {
+    width: 50px; /* Kích thước ngắn lại của thanh tìm kiếm */
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: width 0.3s ease; /* Hiệu ứng chuyển đổi kích thước */
+}
+
+.search-input:focus {
+    width: 200px; /* Kích thước mở rộng khi được focus */
+}
+
+.user-avatar img {
+    width: 50px;
+    height: 50px;
+    border: 3px solid white;
+    border-radius: 50%;
+}
+
+
+.user-avatar {
+    position: relative;
+    display: flex;
+    align-items: center; /* Canh chỉnh văn bản và hình ảnh theo trục dọc */
+    height: 60px;
+    cursor: pointer;
+}
+
+.user-avatar span {
+    margin-right: 10px;
+    color: #868686;
+}
+
+.dropdown-menu {
+    position: absolute; /* Đặt dropdown menu ở vị trí tuyệt đối */
+    top: 40px; /* Đặt khoảng cách từ user-avatar đến dropdown menu */
+    right: 0; /* Đặt dropdown menu ở bên phải của user-avatar */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Đảm bảo dropdown menu hiển thị trên cả các thành phần khác */
+    width: 120px; /* Độ rộng của dropdown menu */
+}
+
+.dropdown-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: 50px; /* Cách header 50px */
+    right: 10px; /* Cách phải 10px */
+    width: 300px; /* Độ rộng của dropdown */
+    background-color: white; /* Màu nền */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 5px; /* Đường viền cong */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+    z-index: 1000; /* Layer z-index */
+}
+
+.notification-dropdown ul {
+    list-style-type: none; /* Ẩn dấu chấm của danh sách */
+    padding: 0; /* Xóa khoảng trắng giữa các phần tử */
+    margin: 0; /* Xóa margin */
+}
+
+.notification-dropdown li {
+    padding: 10px; /* Khoảng cách nội dung với lề */
+    border-bottom: 1px solid #ccc; /* Đường viền giữa các mục */
+}
+
+.notification-dropdown li:last-child {
+    border-bottom: none; /* Loại bỏ đường viền ở mục cuối cùng */
+}
+
+.notification-dropdown li:hover {
+    background-color: #f0f0f0; /* Màu nền khi di chuột vào */
+}
