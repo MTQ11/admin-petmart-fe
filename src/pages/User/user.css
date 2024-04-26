@@ -81,7 +81,7 @@
 }
 
 /* Modal */
-.modal {
+.user-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -94,8 +94,9 @@
     z-index: 999;
 }
 
-.modal-main {
+.user-modal-main {
     background-color: #fff;
+    margin-top: 50px;
     padding: 20px;
     border-radius: 10px;
 }

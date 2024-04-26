@@ -394,8 +394,8 @@ const Product = () => {
             )}
             {showModalEdit && <ModalEditProduct product={selected} handleShowModalEdit={(handleShowModalEdit)} deleteProduct={(deleteProduct)} promotionData={promotionData} typeProductData={typeProductData} />}
             {showModal && (
-                <div className="modal">
-                    <div className="modal-main">
+                <div className="product-modal">
+                    <div className="product-modal-main">
                         <form className="add-product-form">
                             <div>
                                 <input

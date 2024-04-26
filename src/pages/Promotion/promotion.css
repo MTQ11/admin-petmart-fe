@@ -61,7 +61,7 @@
 }
 
 /* Modal */
-.modal {
+.promotion-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -74,13 +74,13 @@
     z-index: 999;
 }
 
-.modal-main {
+.promotion-modal-main {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
 }
 
-.modal.display-none {
+.promotion-modal.display-none {
     display: none;
 }
 

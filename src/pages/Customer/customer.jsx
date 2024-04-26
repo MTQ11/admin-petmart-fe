@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './customer.css';
-import { MdEdit } from "react-icons/md";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
@@ -298,8 +297,8 @@ const Customer = () => {
             )}
 
             {showModal && (
-                <div className="modal">
-                    <div className="modal-main">
+                <div className="customer-modal">
+                    <div className="customer-modal-main">
                         <form className="add-user-form">
                             <div>
                                 <input

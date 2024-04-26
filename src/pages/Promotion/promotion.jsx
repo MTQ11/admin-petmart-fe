@@ -181,8 +181,8 @@ const Promotion = () => {
             )}
             {showModalEdit && <ModalEditPromotion promotion={selectedPromotion} handleShowModalEdit={handleShowModalEdit} deletePromotion={deletePromotion} />}
             {showModal && (
-                <div className="modal">
-                    <div className="modal-main">
+                <div className="promotion-modal">
+                    <div className="promotion-modal-main">
                         <form className="add-promotion-form">
                             <div>
                                 <label htmlFor="name">Tên chương trình:</label>

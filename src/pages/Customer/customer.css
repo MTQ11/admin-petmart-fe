@@ -81,7 +81,7 @@
 }
 
 /* Modal */
-.modal {
+.customer-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -94,13 +94,13 @@
     z-index: 999;
 }
 
-.modal-main {
+.customer-modal-main {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
 }
 
-.modal.display-none {
+.customer-modal.display-none {
     display: none;
 }
 
