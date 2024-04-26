@@ -5,6 +5,7 @@ import decodeToken from '../../utils/DecodeToken';
 import UserInfo from './userInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
+import baseURL from '../../utils/api';
 
 const CommentForm = ({ postId }) => {
     const [comments, setComments] = useState([]);
@@ -18,7 +19,7 @@ const CommentForm = ({ postId }) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/comment/get-comment?post=${postId}`);
+                const response = await axios.get(`${baseURL}/comment/get-comment?post=${postId}`);
                 setComments(response.data.data);
             } catch (error) {
                 console.error('Error fetching comments:', error);
@@ -31,7 +32,7 @@ const CommentForm = ({ postId }) => {
         try {
             const token = localStorage.getItem('token');
             const { id } = decodeToken(token)
-            const response = await axios.post(`http://localhost:3001/comment/admin-add/${id}`,
+            const response = await axios.post(`${baseURL}/comment/admin-add/${id}`,
                 {
                     content: newComment.content,
                     post: postId,
@@ -53,7 +54,7 @@ const CommentForm = ({ postId }) => {
     const handleEditComment = async (commentId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.put(`http://localhost:3001/comment/admin-update/${commentId}`,
+            const response = await axios.put(`${baseURL}/comment/admin-update/${commentId}`,
                 {
                     content: editCommentContent,
                 }, {
@@ -78,7 +79,7 @@ const CommentForm = ({ postId }) => {
     const handleDeleteComment = async (commentId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:3001/comment/admin-delete/${commentId}`, {
+            await axios.delete(`${baseURL}/comment/admin-delete/${commentId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': `bearer ${token}`

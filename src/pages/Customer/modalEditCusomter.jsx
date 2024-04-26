@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import formatCurrency from '../../utils/formatCurrency';
 import formatPhone from '../../utils/formatPhoneNumber';
+import baseURL from '../../utils/api';
 
 const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
     const [editMode, setEditMode] = useState(false);
@@ -30,7 +31,7 @@ const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
         const fetchOrderHistory = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:3001/order/admin-get-order-user/${editedUser.id}`, {
+                const response = await axios.get(`${baseURL}/order/admin-get-order-user/${editedUser.id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
     const saveChanges = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.put(`http://localhost:3001/user/admin-update-user/${editedUser.id}`,
+            const response = await axios.put(`${baseURL}/user/admin-update-user/${editedUser.id}`,
                 editedUser,
                 {
                     headers: {

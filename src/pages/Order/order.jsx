@@ -8,6 +8,7 @@ import ModalEditOrder from './modalEditOrder';
 import Pagination from '../../component/pagination/pagination';
 import formatCurrency from '../../utils/formatCurrency';
 import formatPhone from '../../utils/formatPhoneNumber';
+import baseURL from '../../utils/api';
 
 const Order = () => {
     const [loading, setLoading] = useState(false);
@@ -38,7 +39,7 @@ const Order = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            let url = `http://localhost:3001/order/get-all?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+            let url = `${baseURL}/order/get-all?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
 
             if (filter.key) {
                 url += `&filter=${filter.lable}&filter=${filter.key}`;
@@ -72,7 +73,7 @@ const Order = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/order/get-all?limit=10&page=0`, {
+            const response = await fetch(`${baseURL}/order/get-all?limit=10&page=0`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -143,7 +144,7 @@ const Order = () => {
     const deleteOrder = async (user, id) => {
         try {
             const token = localStorage.getItem('token');
-            const url = `http://localhost:3001/order/admin-cancel-order/${user}/${id}`;
+            const url = `${baseURL}/order/admin-cancel-order/${user}/${id}`;
 
             const confirmDelete = window.confirm("Are you sure you want to delete this order?");
             if (!confirmDelete) {
@@ -171,7 +172,7 @@ const Order = () => {
 
     const confirmOrder = async (id) => {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3001/order/admin-confirm/${id}`, {
+        const response = await fetch(`${baseURL}/order/admin-confirm/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

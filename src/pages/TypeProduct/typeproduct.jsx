@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './typeproduct.css'; // Import CSS file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faAdd } from '@fortawesome/free-solid-svg-icons';
+import baseURL from '../../utils/api';
 
 const TypeProduct = () => {
     const [productTypes, setProductTypes] = useState([]);
@@ -15,7 +16,7 @@ const TypeProduct = () => {
 
     const fetchProductTypes = async () => {
         try {
-            const response = await fetch('http://localhost:3001/type-product/get-type-product');
+            const response = await fetch(`${baseURL}/type-product/get-type-product`);
             const data = await response.json();
             setProductTypes(data.data);
         } catch (error) {
@@ -26,7 +27,7 @@ const TypeProduct = () => {
     const addProductType = async () => {
         try {
             const token = localStorage.getItem('token');
-            await fetch('http://localhost:3001/type-product/create', {
+            await fetch(`${baseURL}/type-product/create`, {
                 method: 'POST',
                 body: JSON.stringify({ name: newProductTypeName }),
                 headers: {
@@ -46,7 +47,7 @@ const TypeProduct = () => {
             const confirmUpdate = window.confirm("Are you sure you want to update this product type?");
             if (confirmUpdate) {
                 const token = localStorage.getItem('token');
-                await fetch(`http://localhost:3001/type-product/update/${id}`, {
+                await fetch(`${baseURL}/type-product/update/${id}`, {
                     method: 'PUT',
                     body: JSON.stringify({ name: newName }),
                     headers: {
@@ -67,7 +68,7 @@ const TypeProduct = () => {
             const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa nhóm sản phẩm này?");
             if (confirmDelete) {
                 const token = localStorage.getItem('token');
-                await fetch(`http://localhost:3001/type-product/delete/${id}`, {
+                await fetch(`${baseURL}/type-product/delete/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './modalEditPromotion.css';
 import axios from 'axios';
+import baseURL from '../../utils/api';
 
 const ModalEditPromotion = ({ promotion, handleShowModalEdit, deletePromotion }) => {
     const [editMode, setEditMode] = useState(false);
@@ -24,7 +25,7 @@ const ModalEditPromotion = ({ promotion, handleShowModalEdit, deletePromotion })
     const saveChanges = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.put(`http://localhost:3001/promotion/update-promotion/${editedPromotion.id}`, editedPromotion, {
+            const response = await axios.put(`${baseURL}/promotion/update-promotion/${editedPromotion.id}`, editedPromotion, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': `bearer ${token}`

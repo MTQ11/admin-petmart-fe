@@ -9,6 +9,7 @@ import ModalNewReceipt from './modalNewReceipt';
 import Pagination from '../../component/pagination/pagination';
 import formatCurrency from '../../utils/formatCurrency';
 import formatPhone from '../../utils/formatPhoneNumber';
+import baseURL from '../../utils/api';
 
 const Receipt = () => {
     const [loading, setLoading] = useState(false);
@@ -40,7 +41,7 @@ const Receipt = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            let url = `http://localhost:3001/receipt/get-all-receipt?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+            let url = `${baseURL}/receipt/get-all-receipt?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
 
             if (filter.key) {
                 url += `&filter=${filter.lable}&filter=${filter.key}`;
@@ -122,7 +123,7 @@ const Receipt = () => {
     const deleteReceipt = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const url = `http://localhost:3001/receipt/cancel-receipt/${id}`;
+            const url = `${baseURL}/receipt/cancel-receipt/${id}`;
 
             const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa phiếu nhập?");
             if (!confirmDelete) {

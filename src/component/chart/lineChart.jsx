@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
+import baseURL from '../../utils/api';
 
 const RevenueChart = ({ setTotalRevenue, setTotalOrder }) => {
     const chartRef = useRef(null);
@@ -18,7 +19,7 @@ const RevenueChart = ({ setTotalRevenue, setTotalOrder }) => {
                 chartInstance.destroy(); // Huỷ bỏ biểu đồ cũ nếu tồn tại
             }
 
-            const response = await axios.get(`http://localhost:3001/report/get-revenue-month?year=${selectedYear}`, {
+            const response = await axios.get(`${baseURL}/report/get-revenue-month?year=${selectedYear}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': `beare ${localStorage.getItem('token')}`
@@ -28,7 +29,7 @@ const RevenueChart = ({ setTotalRevenue, setTotalOrder }) => {
             setTotalRevenue(response.data.totalRevenue)
             const revenueByMonthArray = data.map(item => item.totalRevenue);
 
-            const responseCapital = await axios.get(`http://localhost:3001/report/get-capital-month?year=${selectedYear}`, {
+            const responseCapital = await axios.get(`${baseURL}/report/get-capital-month?year=${selectedYear}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': `beare ${localStorage.getItem('token')}`

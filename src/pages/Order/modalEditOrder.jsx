@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import formatPhone from '../../utils/formatPhoneNumber';
 import formatCurrency from '../../utils/formatCurrency';
+import baseURL from '../../utils/api';
 
 const ModalEditOrder = ({ order, handleShowModalEdit, deleteOrder, confirmOrder }) => {
     const [editMode, setEditMode] = useState(false);
@@ -46,7 +47,7 @@ const ModalEditOrder = ({ order, handleShowModalEdit, deleteOrder, confirmOrder 
 
     const saveChanges = async () => {
         try {
-            const response = await axios.put(`http://localhost:3001/order/update-order/${editedOrder.id}`, editedOrder);
+            const response = await axios.put(`${baseURL}/order/update-order/${editedOrder.id}`, editedOrder);
             handleShowModalEdit();
         } catch (error) {
             console.error('Error updating order:', error);

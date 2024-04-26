@@ -3,6 +3,7 @@ import './login.css';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { useAuth } from '../../context/AuthContext';
+import baseURL from '../../utils/api';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login = () => {
     const handleSubmitLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/user/sign-in', {
+            const response = await fetch(`${baseURL}/user/sign-in`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

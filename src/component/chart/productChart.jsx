@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import Chart from 'chart.js/auto';
+import baseURL from "../../utils/api";
 
 const ProductChart = () => {
     const chartRef = useRef(null);
@@ -11,7 +12,7 @@ const ProductChart = () => {
     useEffect(() => {
         const fetchProductReport = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/report/report-product', {
+                const response = await axios.get(`${baseURL}/report/report-product`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': `bearer ${localStorage.getItem('token')}`

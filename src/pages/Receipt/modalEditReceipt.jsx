@@ -45,7 +45,7 @@ const ModalEditReceipt = ({ receipt, handleShowModalEdit, deleteReceipt }) => {
 
     // const saveChanges = async () => {
     //     try {
-    //         const response = await axios.put(`http://localhost:3001/receipt/update-receipt/${editedReceipt.id}`, editedReceipt);
+    //         const response = await axios.put(`${baseURL}/receipt/update-receipt/${editedReceipt.id}`, editedReceipt);
     //         console.log(response);
     //         handleShowModalEdit();
     //     } catch (error) {

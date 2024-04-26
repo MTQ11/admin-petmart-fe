@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './modalEditUser.css';
 import formatDate from '../../utils/FormartDate';
 import axios from 'axios';
+import baseURL from '../../utils/api';
 
 const ModalEditUser = ({ user, handleShowModalEdit, deleteUser }) => {
     const [editMode, setEditMode] = useState(false);
@@ -61,7 +62,7 @@ const ModalEditUser = ({ user, handleShowModalEdit, deleteUser }) => {
     const saveChanges = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.put(`http://localhost:3001/user/admin-update-user/${editedUser.id}`,
+            const response = await axios.put(`${baseURL}/user/admin-update-user/${editedUser.id}`,
                 editedUser,
                 {
                     headers: {

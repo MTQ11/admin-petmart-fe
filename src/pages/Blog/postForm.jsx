@@ -3,6 +3,7 @@ import './postForm.css';
 import axios from 'axios';
 import decodeToken from '../../utils/DecodeToken';
 import CommentForm from './commentForm';
+import baseURL from '../../utils/api';
 
 const PostForm = ({ handlecloseform, dataEditingPost, stateForm }) => {
     const [numSections, setNumSections] = useState(dataEditingPost?.sections.length || 1)
@@ -48,7 +49,7 @@ const PostForm = ({ handlecloseform, dataEditingPost, stateForm }) => {
                     user: id
                 };
 
-                const response = await axios.post('http://localhost:3001/post/create-post', postData, {
+                const response = await axios.post(`${baseURL}/post/create-post`, postData, {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': `bearer ${token}`
@@ -68,7 +69,7 @@ const PostForm = ({ handlecloseform, dataEditingPost, stateForm }) => {
                     images: initialState.images,
                     user: id
                 };
-                const response = await axios.put(`http://localhost:3001/post/update-post/${initialState.id}`, postData, {
+                const response = await axios.put(`${baseURL}/post/update-post/${initialState.id}`, postData, {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': `bearer ${token}`
@@ -106,12 +107,19 @@ const PostForm = ({ handlecloseform, dataEditingPost, stateForm }) => {
         setInitialState({ ...initialState, images: updatedImages });
     };
 
-    const handleInputChange = (e, index) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
-
-        if (name.includes('sectionTitle') || name.includes('content')) {
+    
+        if (name === 'tags') {
+            // Split the input value by spaces to create an array of tags
+            const tagsArray = value.split(' ');
+            setInitialState(prevState => ({
+                ...prevState,
+                tags: tagsArray
+            }));
+        } else if (name.includes('sectionTitle') || name.includes('content')) {
             const updatedSections = [...initialState.sections];
-            const sectionIndex = parseInt(name.split('-')[1]); // Trích xuất chỉ số của section từ tên input
+            const sectionIndex = parseInt(name.split('-')[1]); // Extract section index from input name
             if (!updatedSections[sectionIndex]) {
                 updatedSections[sectionIndex] = {};
             }
@@ -120,7 +128,7 @@ const PostForm = ({ handlecloseform, dataEditingPost, stateForm }) => {
             } else if (name.includes('content')) {
                 updatedSections[sectionIndex].content = value;
             }
-
+    
             setInitialState(prevState => ({
                 ...prevState,
                 sections: updatedSections
@@ -132,6 +140,7 @@ const PostForm = ({ handlecloseform, dataEditingPost, stateForm }) => {
             }));
         }
     };
+    
 
 
     const handleAddSection = () => {
@@ -148,7 +157,7 @@ const PostForm = ({ handlecloseform, dataEditingPost, stateForm }) => {
     const deletePost = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:3001/post/delete/${id}`, {
+            await axios.delete(`${baseURL}/post/delete/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': `bearer ${token}`

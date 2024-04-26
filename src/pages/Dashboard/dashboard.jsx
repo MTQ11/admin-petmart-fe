@@ -11,6 +11,7 @@ import PostChart from '../../component/chart/postChart';
 import getHour from '../../utils/GetHour';
 import formatCurrency from '../../utils/formatCurrency';
 import formatPhone from '../../utils/formatPhoneNumber';
+import baseURL from '../../utils/api';
 
 const Dashboard = () => {
     const revenueChartRef = useRef(null);
@@ -38,7 +39,7 @@ const Dashboard = () => {
     const fetchDataStartBox = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/report/startbox`, {
+            const response = await fetch(`${baseURL}/report/startbox`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ const Dashboard = () => {
     const fetchDataOrder = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/order/get-all`, {
+            const response = await fetch(`${baseURL}/order/get-all`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,7 +91,7 @@ const Dashboard = () => {
 
     const confirmOrder = async (id) => {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3001/order/admin-confirm/${id}`, {
+        const response = await fetch(`${baseURL}/order/admin-confirm/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

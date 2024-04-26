@@ -5,6 +5,7 @@ import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
 import ModalEditUser from './modalEditUser';
 import Pagination from '../../component/pagination/pagination';
+import baseURL from '../../utils/api'
 
 
 const User = () => {
@@ -49,7 +50,7 @@ const User = () => {
     const fetchData = async () => {
         setLoading(true); // Bắt đầu loading
         try {
-            let url = `http://localhost:3001/user/getMember?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+            let url = `${baseURL}/user/getMember?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
 
             if (filter.key) {
                 url += `&filter=${filter.lable}&filter=${filter.key}`;
@@ -100,7 +101,7 @@ const User = () => {
                 }
             };
 
-            const response = await fetch('http://localhost:3001/user/sign-up', {
+            const response = await fetch(`${baseURL}/user/sign-up`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -154,7 +155,7 @@ const User = () => {
     const deleteUser = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const url = `http://localhost:3001/user/delete/${id}`;
+            const url = `${baseURL}/user/delete/${id}`;
 
             const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa tài khoản này?");
             if (!confirmDelete) {

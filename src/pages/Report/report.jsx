@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './report.css';
 import axios from 'axios';
+import baseURL from '../../utils/api';
 //import { exportToExcel } from './excelExport'; // assuming you have an exportToExcel function
 
 const Report = () => {
@@ -21,7 +22,7 @@ const Report = () => {
     }, [selectedYear]);
 
     const fetchDataRevenue = async (option) => {
-        const response = await axios.get(`http://localhost:3001/report/get-revenue-month?year=${selectedYear}`, {
+        const response = await axios.get(`${baseURL}/report/get-revenue-month?year=${selectedYear}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'token': `beare ${localStorage.getItem('token')}`
@@ -31,7 +32,7 @@ const Report = () => {
     };
 
     const fetchDataCapital = async (option) => {
-        const response = await axios.get(`http://localhost:3001/report/get-capital-month?year=${selectedYear}`, {
+        const response = await axios.get(`${baseURL}/report/get-capital-month?year=${selectedYear}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'token': `beare ${localStorage.getItem('token')}`

@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import Profile from '../profile/profile';
+import baseURL from '../../utils/api';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Header = () => {
     }, [currentUser]);
     const fetchUserDetails = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/user/get-detail/${currentUser.id}`, {
+            const response = await fetch(`${baseURL}/user/get-detail/${currentUser.id}`, {
                 method: 'GET',
                 headers: {
                     'token': `bearer ${localStorage.getItem('token')}`

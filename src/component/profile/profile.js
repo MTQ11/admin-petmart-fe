@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import formatDate from '../../utils/FormartDate';
 import axios from 'axios';
+import baseURL from '../../utils/api';
 
 const Profile = ({ setShowModal, userID }) => {
     const [editMode, setEditMode] = useState(false);
@@ -23,7 +24,7 @@ const Profile = ({ setShowModal, userID }) => {
         const fetchUserDetails = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:3001/user/get-detail/${userID}`, {
+                const response = await axios.get(`${baseURL}/user/get-detail/${userID}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': `beare ${token}`
@@ -95,7 +96,7 @@ const Profile = ({ setShowModal, userID }) => {
     const saveChanges = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.put(`http://localhost:3001/user/update-user/${editedUser.id}`,
+            const response = await axios.put(`${baseURL}/user/update-user/${editedUser.id}`,
                 editedUser,
                 {
                     headers: {

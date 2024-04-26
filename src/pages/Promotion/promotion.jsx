@@ -5,6 +5,7 @@ import './promotion.css';
 import formatDate from '../../utils/FormartDate';
 import ModalEditPromotion from './modalEditPromotion';
 import Pagination from '../../component/pagination/pagination';
+import baseURL from '../../utils/api';
 
 const Promotion = () => {
     const [loading, setLoading] = useState(false);
@@ -28,13 +29,13 @@ const Promotion = () => {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, pageSize, updated]);
+    }, [currentPage, pageSize,searchTerm, updated]);
 
     const fetchData = async () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/promotion/get-promotion?limit=${pageSize}&page=${currentPage - 1}`, {
+            const response = await fetch(`${baseURL}/promotion/get-promotion?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ const Promotion = () => {
                 note: promotionFields.note
             };
 
-            const response = await fetch('http://localhost:3001/promotion/create-promotion', {
+            const response = await fetch(`${baseURL}/promotion/create-promotion`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,7 +108,7 @@ const Promotion = () => {
     const deletePromotion = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const url = `http://localhost:3001/promotion/delete/${id}`;
+            const url = `${baseURL}/promotion/delete/${id}`;
 
             const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa khuyến mãi này?");
             if (!confirmDelete) {
@@ -158,7 +159,6 @@ const Promotion = () => {
                         <tbody>
                             {
                                 promotions
-                                    .filter(promotion => promotion.name.toLowerCase().includes(searchTerm.toLowerCase()))
                                     .map(promotion => (
                                         <tr key={promotion.id} onClick={() => handleEditClick(promotion)} >
                                             <td>{promotion?.name}</td>

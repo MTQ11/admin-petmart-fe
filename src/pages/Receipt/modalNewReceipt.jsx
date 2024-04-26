@@ -3,6 +3,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 import './modalNewReceipt.css'
 import axios from 'axios';
 import decodeToken from '../../utils/DecodeToken';
+import baseURL from '../../utils/api';
 
 const ModalNewReceipt = ({ handleShowModalNew }) => {
     const [newReceiptFormData, setNewReceiptFormData] = useState({
@@ -49,7 +50,7 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/product/get-product');
+            const response = await axios.get(`${baseURL}/product/get-product`);
             setProducts(response.data.data); // Lưu danh sách sản phẩm vào state
             setFilteredProducts(response.data.data)
         } catch (error) {
@@ -59,7 +60,7 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
 
     const fetchTypeProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/type-product/get-type-product');
+            const response = await axios.get(`${baseURL}/type-product/get-type-product`);
             setType(response.data.data)
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -185,7 +186,7 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
     const createReceipt = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3001/receipt/create', newReceiptFormData, {
+            const response = await axios.post(`${baseURL}/receipt/create`, newReceiptFormData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': `bearer ${token}`
@@ -268,8 +269,8 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-main-reciep">
+        <div className="modal-reciept">
+            <div className="modal-main-reciept">
                 <form className="add-receipt-form" onSubmit={handleSubmit}>
                     <div className='modal-header'>
                         <div className='modal-info'>

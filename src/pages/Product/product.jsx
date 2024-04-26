@@ -5,6 +5,7 @@ import { faSpinner, faFilter, faSort, faTimesCircle, faCheckCircle } from '@fort
 import ModalEditProduct from './modalEditProduct';
 import Pagination from '../../component/pagination/pagination';
 import formatCurrency from '../../utils/formatCurrency'
+import baseURL from '../../utils/api';
 
 const Product = () => {
     const [loading, setLoading] = useState(false); // Thêm trạng thái loading
@@ -73,7 +74,7 @@ const Product = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            let url = `http://localhost:3001/product/get-product?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+            let url = `${baseURL}/product/get-product?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
 
             if (filter.key) {
                 url += `&filter=${filter.lable}&filter=${filter.key}`;
@@ -108,7 +109,7 @@ const Product = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:3001/promotion/get-promotion`, {
+            const response = await fetch(`${baseURL}/promotion/get-promotion`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -130,7 +131,7 @@ const Product = () => {
     const fetchDataTypeProduct = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3001/type-product/get-type-product`, {
+            const response = await fetch(`${baseURL}/type-product/get-type-product`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -165,7 +166,7 @@ const Product = () => {
                 promotion: datatFields.promotion
             };
 
-            const response = await fetch('http://localhost:3001/product/create-product', {
+            const response = await fetch(`${baseURL}/product/create-product`, {
                 method: 'POST', // Sử dụng method POST thay vì GET
                 headers: {
                     'Content-Type': 'application/json',
@@ -251,7 +252,7 @@ const Product = () => {
     const deleteProduct = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const url = `http://localhost:3001/product/delete/${id}`;
+            const url = `${baseURL}/product/delete/${id}`;
 
             const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?");
             if (!confirmDelete) {

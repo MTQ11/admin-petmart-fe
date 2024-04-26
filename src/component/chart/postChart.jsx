@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
+import baseURL from '../../utils/api';
 
 const PostChart = () => {
     const [postChart, setPostChart] = useState(null);
@@ -9,7 +10,7 @@ const PostChart = () => {
     useEffect(() => {
         const fetchPostReport = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/report/report-post', {
+                const response = await axios.get(`${baseURL}/report/report-post`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': `bearer ${localStorage.getItem('token')}`

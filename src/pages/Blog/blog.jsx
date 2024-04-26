@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import PostForm from './postForm';
+import baseURL from '../../utils/api';
 
 const Blog = () => {
     const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ const Blog = () => {
     const loadPosts = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:3001/post/get-post');
+            const response = await axios.get(`${baseURL}/post/get-post`);
             setPosts(response.data.data);
             const allCategories = response.data.data.map(post => post.category);
             const uniqueCategories = Array.from(new Set(allCategories)); // Loại bỏ các category trùng lặp

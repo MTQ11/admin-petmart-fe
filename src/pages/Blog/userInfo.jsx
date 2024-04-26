@@ -1,6 +1,7 @@
 // UserInfoLoader.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import baseURL from '../../utils/api';
 
 const UserInfo = ({ userId }) => {
     const [userInfo, setUserInfo] = useState(null);
@@ -9,7 +10,7 @@ const UserInfo = ({ userId }) => {
         const fetchUserInfo = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:3001/user/admin-get-detail/${userId}`, {
+                const response = await axios.get(`${baseURL}/user/admin-get-detail/${userId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': `bearer ${token}`

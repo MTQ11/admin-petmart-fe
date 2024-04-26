@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import Chart from 'chart.js/auto';
+import baseURL from "../../utils/api";
 
 const UserStatistics = () => {
     const genderChartRef = useRef(null);
@@ -13,7 +14,7 @@ const UserStatistics = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/report/report-user', {
+                const response = await axios.get(`${baseURL}/report/report-user`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': `bearer ${localStorage.getItem('token')}`

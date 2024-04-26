@@ -3,6 +3,7 @@ import './modalEditProduct.css';
 import formatDate from '../../utils/FormartDate';
 import axios from 'axios';
 import formatCurrency from '../../utils/formatCurrency';
+import baseURL from '../../utils/api';
 
 const ModalEditProduct = ({ product, handleShowModalEdit, deleteProduct, promotionData, typeProductData }) => {
     const [editMode, setEditMode] = useState(false);
@@ -52,7 +53,7 @@ const ModalEditProduct = ({ product, handleShowModalEdit, deleteProduct, promoti
                 editedProductToSend.promotion = null;
             }
 
-            const response = await axios.put(`http://localhost:3001/product/update-product/${editedProductToSend.id}`, editedProductToSend);
+            const response = await axios.put(`${baseURL}/product/update-product/${editedProductToSend.id}`, editedProductToSend);
             handleShowModalEdit();
         } catch (error) {
             console.error('Error updating product:', error);
