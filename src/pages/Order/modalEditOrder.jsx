@@ -115,10 +115,12 @@ const ModalEditOrder = ({ order, handleShowModalEdit, deleteOrder, confirmOrder 
                     </table>
                 </div>
                 <div className="order-actions">
-                    <button className="button-confirm-order" onClick={() => {
-                        handleShowModalEdit()
-                        confirmOrder(editedOrder.id)
-                    }}>Xác nhận</button>
+                    {!editedOrder.isDelivered &&
+                        <button className="button-confirm-order" onClick={() => {
+                            handleShowModalEdit()
+                            confirmOrder(editedOrder.id)
+                        }}>Xác nhận</button>
+                    }
                     <button className="button-delete-order" onClick={() => deleteOrder(editedOrder.user, editedOrder.id)}>Hủy hóa đơn</button>
                 </div>
             </div>
