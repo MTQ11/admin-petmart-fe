@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './customer.css';
 import { MdEdit } from "react-icons/md";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
 import Pagination from '../../component/pagination/pagination';
 import ModalEditCusomter from './modalEditCusomter';
@@ -29,6 +29,14 @@ const Customer = () => {
     const [loading, setLoading] = useState(false); // Thêm trạng thái loading
     const [searchTerm, setSearchTerm] = useState('');
     const [avatar, setAvatar] = useState('');
+    const [filter, setFilter] = useState({
+        lable: '',
+        key: ''
+    });
+    const [sort, setSort] = useState({
+        lable: '',
+        key: ''
+    });
 
     const [pageSize, setPageSize] = useState(5); // Số người dùng trên mỗi trang
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
@@ -37,13 +45,23 @@ const Customer = () => {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, pageSize,searchTerm, userUpdated]);
+    }, [currentPage, pageSize, searchTerm, sort, filter, userUpdated]);
 
     const fetchData = async () => {
         setLoading(true); // Bắt đầu loading
         try {
+            let url = `http://localhost:3001/user/getCustomer?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+
+            if (filter.key) {
+                url += `&filter=${filter.lable}&filter=${filter.key}`;
+            }
+
+            if (sort.key) {
+                url += `&sort=${sort.key}&sort=${sort.lable}`;
+            }
+
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/user/getCustomer?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`, {
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +99,6 @@ const Customer = () => {
                     address: newUserFields.address,
                 }
             };
-            console.log("newUser", newUser)
 
             const response = await fetch('http://localhost:3001/user/sign-up', {
                 method: 'POST',
@@ -121,7 +138,6 @@ const Customer = () => {
                 [name]: value
             }));
         }
-        console.log(newUserFields)
     };
 
     const handleEditClick = (user) => {
@@ -168,6 +184,28 @@ const Customer = () => {
         setSearchTerm(searchTerm);
     };
 
+    const handleFilter = (e, lable) => {
+        setFilter({
+            lable: lable,
+            key: e.target.value.toLowerCase()
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
+    };
+
+    const handleSort = (e, lable) => {
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: lable,
+            key: e.target.value
+        })
+    };
+
     const handleCloseModal = () => {
         setShowModal(false);
         resetNewUserFields()
@@ -188,8 +226,6 @@ const Customer = () => {
         });
     };
 
-
-
     return (
         <div className="user-container">
             <div className="user-actions">
@@ -207,17 +243,35 @@ const Customer = () => {
                             <tr>
                                 <th>Ảnh</th>
                                 <th>Email</th>
-                                <th>Tên</th>
-                                <th>Giới tính</th>
-                                <th>Ngày sinh</th>
+                                <th>Tên
+                                <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'information.name')}>
+                                        <option value='asc'>A-Z</option>
+                                        <option value='desc'>Z-A</option>
+                                    </select>
+                                </th>
+                                <th>Giới tính
+                                    <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={filter.key} onChange={(e) => handleFilter(e, 'information.gender')}>
+                                        <option value=''>Tất cả</option>
+                                        <option value='nam'>Nam</option>
+                                        <option value='nữ'>Nữ</option>
+                                    </select>
+                                </th>
+                                <th>Ngày sinh
+                                <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'information.birthday')}>
+                                        <option value='asc'>Tăng</option>
+                                        <option value='desc'>Giảm</option>
+                                    </select>
+                                </th>
                                 <th>SĐT</th>
                                 <th>Địa chỉ</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {users?.map(user => (
-                                <tr key={user._id}>
+                                <tr key={user._id} onClick={() => handleEditClick(user)}>
                                     <td>
                                         <img src={user.information?.avatar} alt="Avatar" />
                                     </td>
@@ -227,9 +281,6 @@ const Customer = () => {
                                     <td>{user.information?.birthday ? formatDate(user.information.birthday) : null}</td>
                                     <td>0{user.information?.phone}</td>
                                     <td>{user.information?.address}</td>
-                                    <td>
-                                        <MdEdit style={{ width: '30px', height: '30px' }} onClick={() => handleEditClick(user)} />
-                                    </td>
                                 </tr>
                             ))}
                         </tbody>

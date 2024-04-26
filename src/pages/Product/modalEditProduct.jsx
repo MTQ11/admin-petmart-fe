@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import './modalEditProduct.css';
 import formatDate from '../../utils/FormartDate';
 import axios from 'axios';
+import formatCurrency from '../../utils/formatCurrency';
 
 const ModalEditProduct = ({ product, handleShowModalEdit, deleteProduct, promotionData, typeProductData }) => {
     const [editMode, setEditMode] = useState(false);
     const [editedProduct, setEditedProduct] = useState({
         id: product?._id,
+        idProduct: product.idProduct,
         name: product?.name,
         image: product?.image,
         type: product?.type,
@@ -43,7 +45,6 @@ const ModalEditProduct = ({ product, handleShowModalEdit, deleteProduct, promoti
         }
     };
 
-
     const saveChanges = async () => {
         try {
             let editedProductToSend = { ...editedProduct }
@@ -71,6 +72,7 @@ const ModalEditProduct = ({ product, handleShowModalEdit, deleteProduct, promoti
                     <img src={newImage || editedProduct.image} alt="Image" onClick={() => document.querySelector('.image input[type="file"]').click()} />
                 </div>
                 <div className="product-details">
+                    <div><strong>Mã sản phẩm:</strong> <input type="text" name="idProduct" value={editedProduct.idProduct} onChange={handleInputChange} /></div>
                     <div><strong>Tên sản phẩm:</strong> <input type="text" name="name" value={editedProduct.name} onChange={handleInputChange} /></div>
                     <div><strong>Nhóm sản phẩm</strong>
                         <select id="type" name="type" value={editedProduct.type} onChange={handleInputChange}>

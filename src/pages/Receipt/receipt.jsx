@@ -2,20 +2,30 @@ import React, { useState, useEffect } from 'react';
 import './receipt.css'
 import { MdEdit } from 'react-icons/md';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
 import ModalEditReceipt from './modalEditReceipt';
 import ModalNewReceipt from './modalNewReceipt';
 import Pagination from '../../component/pagination/pagination';
+import formatCurrency from '../../utils/formatCurrency';
+import formatPhone from '../../utils/formatPhoneNumber';
 
 const Receipt = () => {
     const [loading, setLoading] = useState(false);
     const [receipts, setReceipts] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
     const [showModalEdit, setShowModalEdit] = useState(false);
     const [selected, setSelected] = useState(null);
     const [updated, setUpdated] = useState(false);
     const [showModalNew, setShowModalNew] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filter, setFilter] = useState({
+        lable: '',
+        key: ''
+    });
+    const [sort, setSort] = useState({
+        lable: '',
+        key: ''
+    });
 
     const [pageSize, setPageSize] = useState(5); // Số sản phẩm trên mỗi trang
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
@@ -24,13 +34,22 @@ const Receipt = () => {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, pageSize, updated]);
+    }, [currentPage, pageSize, searchTerm, sort, filter, updated]);
 
     const fetchData = async () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/receipt/get-all-receipt?limit=${pageSize}&page=${currentPage - 1}`, {
+            let url = `http://localhost:3001/receipt/get-all-receipt?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+
+            if (filter.key) {
+                url += `&filter=${filter.lable}&filter=${filter.key}`;
+            }
+
+            if (sort.key) {
+                url += `&sort=${sort.key}&sort=${sort.lable}`;
+            }
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,13 +72,37 @@ const Receipt = () => {
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
     };
 
-    const filteredReceipts = receipts?.filter(receipt =>
-        receipt.receiptItems.some(item =>
-            item.name?.toLowerCase().includes(searchTerm?.toLowerCase())
-        )
-    );
+    const handleFilter = (e, lable) => {
+        setFilter({
+            lable: lable,
+            key: e.target.value.toLowerCase()
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
+    };
+
+    const handleSort = (e, lable) => {
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: lable,
+            key: e.target.value
+        })
+    };
 
     const handleShowModalEdit = () => {
         setShowModalEdit(false);
@@ -121,26 +164,34 @@ const Receipt = () => {
                         <thead>
                             <tr>
                                 <th>Mã</th>
-                                <th>Thanh toán</th>
                                 <th>Nhà cung cấp</th>
                                 <th>Địa chỉ</th>
                                 <th>SĐT</th>
-                                <th>Thời gian nhận</th>
-                                <th></th>
+                                <th>Thanh toán
+                                <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'totalPrice')}>
+                                        <option value='asc'>Tăng</option>
+                                        <option value='desc'>Giảm</option>
+                                    </select>
+                                </th>
+                                <th>Thời gian
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'receivedAt')}>
+                                        <option value='asc'>Cũ nhất</option>
+                                        <option value='desc'>Mới nhất</option>
+                                    </select>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {receipts?.map(receipt => (
-                                <tr key={receipt._id}>
+                                <tr key={receipt._id} onClick={() => handleEditClick(receipt)} >
                                     <td>{receipt?._id}</td>
-                                    <td>{receipt?.totalPrice}</td>
                                     <td>{receipt?.receivedFrom.fullName}</td>
                                     <td>{receipt?.receivedFrom.address}</td>
-                                    <td>0{receipt?.receivedFrom.phone}</td>
+                                    <td>{formatPhone(receipt?.receivedFrom.phone)}</td>
+                                    <td>{formatCurrency(receipt?.totalPrice)}</td>
                                     <td>{receipt?.receivedAt ? formatDate(receipt.receivedAt) : null}</td>
-                                    <td>
-                                        <MdEdit style={{ width: '30px', height: '30px' }} onClick={() => handleEditClick(receipt)} />
-                                    </td>
                                 </tr>
                             ))}
                         </tbody>

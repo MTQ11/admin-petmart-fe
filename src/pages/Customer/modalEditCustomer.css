@@ -1,4 +1,4 @@
-.user-main{
+.customer-main{
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 999;
 }
 
-.user-profile {
+.customer-profile {
     position: fixed;
     top: 55%;
     left: 50%;
@@ -22,35 +22,33 @@
     padding: 10px;
     z-index: 1000;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
-.user-profile .avatar {
+.customer-profile .avatar {
     text-align: center;
     margin: 20px 0 20px 0;
 }
 
-.user-profile .avatar img {
-    width: 100px;
-    height: 100px;
+.customer-profile .avatar img {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    margin-bottom: 10px; /* Thêm margin-bottom để đẩy hình ảnh xuống */
 }
 
-.user-profile .user-details div {
+.customer-profile .customer-details div {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
 }
 
-.user-profile .user-details div strong {
+.customer-profile .customer-details div strong {
     min-width: 150px;
 }
 
-.user-profile .user-details input[type="text"],
-.user-profile .user-details input[type="date"],
-.user-profile .user-details input[type="tel"],
-.user-profile .user-details select {
+.customer-profile .customer-details input[type="text"],
+.customer-profile .customer-details input[type="date"],
+.customer-profile .customer-details input[type="tel"],
+.customer-profile .customer-details select {
     flex: 1;
     padding: 8px;
     border: 1px solid #ccc;
@@ -58,12 +56,12 @@
     box-sizing: border-box;
 }
 
-.user-profile .user-actions {
+.customer-profile .customer-actions {
     display: flex;
     justify-content: flex-end; /* Đẩy các nút về phía bên phải */
 }
 
-.user-profile .user-actions button {
+.customer-profile .customer-actions button {
     padding: 8px 16px;
     margin-left: 10px; /* Khoảng cách giữa các nút */
     background-color: #007bff;
@@ -74,13 +72,14 @@
     transition: background-color 0.3s ease;
 }
 
-.user-profile .user-actions button:hover {
+.customer-profile .customer-actions button:hover {
     background-color: #0056b3;
 }
 
-.button-delete {
+.customer-profile .button-delete {
     padding: 8px 16px;
     background-color: #ff0000;
+    margin: 10px;
     color: white;
     border: none;
     border-radius: 5px;
@@ -88,7 +87,61 @@
     transition: background-color 0.3s ease;
 }
 
-.button-delete:hover {
+.customer-profile .button-delete:hover {
     background-color: #b30000;
 }
 
+.order-history {
+    max-height: 500px; /* Đặt chiều cao tối đa */
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá kích thước */
+}
+
+.order-history ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px;
+}
+
+.order-history li {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.order-history h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.order-history p {
+    margin: 5px 0;
+}
+
+.order table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.order table th,
+.order table td {
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.order table th {
+    background-color: #f2f2f2;
+}
+
+.order table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.order table tbody tr:hover {
+    background-color: #ddd;
+}
+
+.order-info{
+    display: flex;
+}

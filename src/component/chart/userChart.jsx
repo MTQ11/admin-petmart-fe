@@ -85,7 +85,7 @@ const UserStatistics = () => {
 
     return (
         <div className="chart-container">
-            <h3>Thống kê người dùng</h3>
+            <h3>Thống kê khách hàng</h3>
             <div style={{ display: 'flex' }}>
                 <div className="chart" style={{ width: '50%', height: 'auto' }}>
                     <canvas ref={genderChartRef} />

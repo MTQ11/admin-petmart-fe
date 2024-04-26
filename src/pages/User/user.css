@@ -37,6 +37,21 @@
     border-radius: 50%;
 }
 
+.select-table {
+    display: block;
+    margin: 0 auto;
+    width: 90px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.select-table:hover {
+    border-color:#000000;
+    transition: 0.5s;
+}
+
 .user-actions {
     display: flex;
     align-items: center;

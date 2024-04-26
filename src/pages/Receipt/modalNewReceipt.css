@@ -38,6 +38,7 @@
 }
 
 .product-item {
+    height: fit-content;
     cursor: pointer; /* Biến con trỏ thành bàn phím khi di chuột qua ảnh */
     text-align: center; /* Căn giữa văn bản trong ô */
 }

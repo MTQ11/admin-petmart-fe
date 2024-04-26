@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { MdEdit } from "react-icons/md";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import './order.css'; // Đảm bảo import file CSS của order
 import formatDate from '../../utils/FormartDate';
 import decodeToken from '../../utils/DecodeToken';
 import ModalEditOrder from './modalEditOrder';
 import Pagination from '../../component/pagination/pagination';
+import formatCurrency from '../../utils/formatCurrency';
+import formatPhone from '../../utils/formatPhoneNumber';
 
 const Order = () => {
     const [loading, setLoading] = useState(false);
     const [orders, setOrders] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
     const [showModalEdit, setShowModalEdit] = useState(false);
     const [selected, setSelected] = useState(null);
     const [updated, setUpdated] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filter, setFilter] = useState({
+        lable: '',
+        key: ''
+    });
+    const [sort, setSort] = useState({
+        lable: '',
+        key: ''
+    });
 
     const [pageSize, setPageSize] = useState(5); // Số người dùng trên mỗi trang
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
@@ -23,13 +32,22 @@ const Order = () => {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, pageSize, updated]);
+    }, [currentPage, pageSize, searchTerm, sort, filter, updated]);
 
     const fetchData = async () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/order/get-all?limit=${pageSize}&page=${currentPage - 1}`, {
+            let url = `http://localhost:3001/order/get-all?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+
+            if (filter.key) {
+                url += `&filter=${filter.lable}&filter=${filter.key}`;
+            }
+
+            if (sort.key) {
+                url += `&sort=${sort.key}&sort=${sort.lable}`;
+            }
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,17 +93,46 @@ const Order = () => {
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
     };
 
-    const filteredOrders = orders?.filter(order =>
-        order.orderItems.some(item =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-    );
+    const handleFilter = (e, lable) => {
+        setFilter({
+            lable: lable,
+            key: e.target.value.toLowerCase()
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
+    };
+
+    const handleSort = (e, lable) => {
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: lable,
+            key: e.target.value
+        })
+    };
+
+    // const filteredOrders = orders?.filter(order =>
+    //     order.orderItems.some(item =>
+    //         item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    //     )
+    // );
 
     const handleShowModalEdit = () => {
         setShowModalEdit(false);
-        setUpdated(!updated);
     };
 
     const handleEditClick = (order) => {
@@ -122,6 +169,18 @@ const Order = () => {
         handleShowModalEdit();
     };
 
+    const confirmOrder = async (id) => {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:3001/order/admin-confirm/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': `beare ${token}`
+            }
+        });
+        setUpdated(!updated);
+    }
+
     return (
         <div className="order-container">
             <div className="order-actions">
@@ -137,32 +196,53 @@ const Order = () => {
                         <thead>
                             <tr>
                                 <th>Mã hóa đơn</th>
-                                <th>Khách hàng</th>
-                                <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
-                                <th>Thành tiền</th>
-                                <th>Phương thức</th>
-                                <th>Thanh toán</th>
-                                <th>Hình thức</th>
-                                <th>Ngày lập</th>
-                                <th></th>
+                                <th>Khách hàng
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'shippingAddress.fullName')}>
+                                        <option value='asc'>A-Z</option>
+                                        <option value='desc'>Z-A</option>
+                                    </select>
+                                </th>
+                                <th>Thành tiền
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'totalPrice')}>
+                                        <option value='asc'>Tăng</option>
+                                        <option value='desc'>Giảm</option>
+                                    </select>
+                                </th>
+                                <th>Thanh toán
+                                    <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={filter.key} onChange={(e) => handleFilter(e, 'isPaid')}>
+                                        <option value=''>Tất cả</option>
+                                        <option value='true'>Đã thanh toán</option>
+                                        <option value='false'>Khi nhận</option>
+                                    </select>
+                                </th>
+                                <th>Ngày lập
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'createdAt')}>
+                                        <option value='asc'>Cũ nhất</option>
+                                        <option value='desc'>Mới nhất</option>
+                                    </select>
+                                </th>
+                                <th>Địa chỉ</th>
+                                <th>Vận chuyển</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredOrders?.map(order => (
-                                <tr key={order._id}>
+                            {orders?.map(order => (
+                                <tr key={order._id} onClick={() => handleEditClick(order)}>
                                     <td>{order?._id}</td>
+                                    <td>{formatPhone(order?.shippingAddress.phone)}</td>
                                     <td>{order?.shippingAddress.fullName}</td>
-                                    <td>{order?.shippingAddress.address}</td>
-                                    <td>0{order?.shippingAddress.phone}</td>
-                                    <td>{order?.totalPrice}</td>
-                                    <td>{order?.paymentMethod}</td>
+                                    <td>{formatCurrency(order?.totalPrice)}</td>
                                     <td>{order?.isPaid ? 'Đã thanh toán' : 'Khi nhận'}</td>
-                                    <td>{order?.isDelivered ? order.isDelivered : 'Vận chuyển'}</td>
                                     <td>{order?.createdAt ? formatDate(order.createdAt) : null}</td>
-                                    <td>
-                                        <MdEdit style={{ width: '30px', height: '30px' }} onClick={() => handleEditClick(order)} />
-                                    </td>
+                                    <td>{order?.shippingAddress.address}</td>
+                                    <td>{order?.isDelivered ? 'Đã vận chuyển' :
+                                        <button style={{backgroundColor: 'green', color: 'white', cursor: 'pointer'}}>Xác nhận</button>
+                                    }</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -177,7 +257,7 @@ const Order = () => {
                 </>
 
             )}
-            {showModalEdit && <ModalEditOrder order={selected} handleShowModalEdit={(handleShowModalEdit)} deleteOrder={deleteOrder} />}
+            {showModalEdit && <ModalEditOrder order={selected} handleShowModalEdit={(handleShowModalEdit)} deleteOrder={deleteOrder} confirmOrder={confirmOrder}/>}
         </div>
     );
 }

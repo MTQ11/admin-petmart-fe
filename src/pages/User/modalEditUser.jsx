@@ -39,10 +39,7 @@ const ModalEditUser = ({ user, handleShowModalEdit, deleteUser }) => {
                 reader.readAsDataURL(file);
             }
         } else {
-            // Xác định trường thông tin nằm trong information hay không
             const isInformationField = ['name', 'gender', 'birthday', 'phone', 'address'].includes(name);
-
-            // Nếu là trường thông tin trong information, cập nhật state editedUser.information
             if (isInformationField) {
                 setEditedUser(prevState => ({
                     ...prevState,
@@ -52,7 +49,6 @@ const ModalEditUser = ({ user, handleShowModalEdit, deleteUser }) => {
                     }
                 }));
             } else {
-                // Nếu không phải là trường thông tin trong information, cập nhật trực tiếp state editedUser
                 setEditedUser(prevState => ({
                     ...prevState,
                     [name]: value

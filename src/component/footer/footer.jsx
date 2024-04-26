@@ -4,7 +4,9 @@ import "./footer.css"
 const Footer = () => {
     return (
         <div className="footer">
-            <p>© 2024 PETMART MANAGE</p>
+            <p>
+                2024 © CÔNG TY PET MART VIỆT NAM
+            </p>
         </div>
     );
 }

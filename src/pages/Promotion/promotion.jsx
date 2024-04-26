@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { MdEdit } from "react-icons/md";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import './promotion.css';
@@ -154,7 +153,6 @@ const Promotion = () => {
                                 <th>Ngày kết thúc</th>
                                 <th>Phần trăm (%)</th>
                                 <th>Ghi chú</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -162,15 +160,12 @@ const Promotion = () => {
                                 promotions
                                     .filter(promotion => promotion.name.toLowerCase().includes(searchTerm.toLowerCase()))
                                     .map(promotion => (
-                                        <tr key={promotion.id}>
+                                        <tr key={promotion.id} onClick={() => handleEditClick(promotion)} >
                                             <td>{promotion?.name}</td>
                                             <td>{promotion?.startday ? formatDate(promotion.startday) : null}</td>
                                             <td>{promotion?.endday ? formatDate(promotion.endday) : null}</td>
                                             <td>{promotion?.discount}%</td>
                                             <td>{promotion?.note}</td>
-                                            <td>
-                                                <MdEdit style={{ width: '30px', height: '30px' }} onClick={() => handleEditClick(promotion)} />
-                                            </td>
                                         </tr>
                                     ))}
                         </tbody>

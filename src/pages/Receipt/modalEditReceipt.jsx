@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import formatDate from '../../utils/FormartDate';
 import './modalEditReceipt.css'; // Đảm bảo import file CSS của modalEditReceipt
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 import * as XLSX from 'xlsx';
+import formatPhone from '../../utils/formatPhoneNumber';
+import formatCurrency from '../../utils/formatCurrency';
 
 const ModalEditReceipt = ({ receipt, handleShowModalEdit, deleteReceipt }) => {
     const [editMode, setEditMode] = useState(false);
@@ -84,15 +88,14 @@ const ModalEditReceipt = ({ receipt, handleShowModalEdit, deleteReceipt }) => {
     return (
         <div className='receipt-main'>
             <div className="receipt-details">
-                <button className="close-modal" onClick={handleShowModalEdit}>X</button> {/* Nút tắt modal */}
+                <FontAwesomeIcon className="close-modal" icon={faClose} onClick={handleShowModalEdit}/>
                 <div className='receipt-details-received-info'>
                     <div>
                         <div><strong>Người gửi:</strong> <div className="fullName">{editedReceipt.receivedFrom.fullName}</div></div>
                         <div><strong>Địa chỉ:</strong> <div className="address">{editedReceipt.receivedFrom.address}</div></div>
-                        <div><strong>SĐT:</strong> <div className="phone">0{editedReceipt.receivedFrom.phone}</div></div>
+                        <div><strong>SĐT:</strong> <div className="phone">{ formatPhone(editedReceipt.receivedFrom.phone) }</div></div>
                     </div>
                     <div>
-                        <div><strong>Người nhận:</strong> <div className="receivedBy">{editedReceipt.receivedBy}</div></div>
                         <div><strong>Thời gian nhận:</strong> <div className="receivedAt">{editedReceipt.receivedAt ? formatDate(editedReceipt.receivedAt) : null}</div></div>
                         <div><strong>Ghi chú:</strong> <div className="note">{editedReceipt.receivedFrom.note}</div></div>
                     </div>
@@ -113,14 +116,14 @@ const ModalEditReceipt = ({ receipt, handleShowModalEdit, deleteReceipt }) => {
                                 <tr key={index} className="receipt-item">
                                     <td>{item.name}</td>
                                     <td>{item.unit}</td>
-                                    <td>{item.price}</td>
+                                    <td>{ formatCurrency(item.price) }</td>
                                     <td>{item.amount}</td>
-                                    <td>{item.price * item.amount}</td>
+                                    <td>{ formatCurrency(item.price * item.amount)}</td>
                                 </tr>
                             ))}
                             <tr> {/* Dòng cuối cùng để hiển thị tổng tiền phiếu nhập */}
                                 <td colSpan="4"><b>Tổng tiền phiếu nhập</b></td>
-                                <td>{totalReceiptPrice}</td>
+                                <td>{formatCurrency(totalReceiptPrice)}</td>
                             </tr>
                         </tbody>
                     </table>

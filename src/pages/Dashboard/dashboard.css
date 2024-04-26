@@ -4,7 +4,7 @@
     z-index: 900;
     margin-left: 350px; /* Dịch phải theo chiều ngang của sidebar */
     overflow-y: auto;
-    max-height: calc(100vh - 160px); /* Tối đa chiều cao của dashboard */
+    max-height: calc(100vh - 130px); /* Tối đa chiều cao của dashboard */
 }
 
 .dashboard-container h3 {
@@ -87,4 +87,42 @@
     text-align: center; /* Căn giữa nội dung */
     font-size: 16px; /* Kích thước chữ */
     color: #721c24; /* Màu chữ */
+}
+
+/* CSS cho modal */
+.detail-order-modal {
+    position: fixed; /* Tạo modal cố định trên màn hình */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền với độ mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-order-content {
+    background-color: #fff; /* Màu nền của modal */
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 80%; /* Độ rộng tối đa của modal */
+    max-height: 80%; /* Độ cao tối đa của modal */
+    overflow-y: auto; /* Cho phép cuộn khi nội dung quá dài */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
+}
+
+.table-detail-order {
+    width: 100%; /* Make table full width */
+}
+
+.table-detail-order th,
+.table-detail-order td {
+    border: 1px solid #ccc; /* Add border */
+    padding: 8px;
+    text-align: left; /* Align text left */
+}
+
+.product-item:nth-child(even) {
+    background-color: #f2f2f2; /* Add background color for header */
 }

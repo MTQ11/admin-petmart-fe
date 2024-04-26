@@ -30,7 +30,6 @@ const ModalEditPromotion = ({ promotion, handleShowModalEdit, deletePromotion })
                     'token': `bearer ${token}`
                 }
             });
-            console.log(response);
             handleShowModalEdit();
         } catch (error) {
             console.error('Error updating promotion:', error);
@@ -41,10 +40,10 @@ const ModalEditPromotion = ({ promotion, handleShowModalEdit, deletePromotion })
         <div className='promotion-main'>
             <div className='promotion-profile'>
                 <div className="promotion-details">
-                    <div><strong>Tên khuyến mãi:</strong> <input type="text" name="name" value={editedPromotion.name} onChange={handleInputChange} /></div>
-                    <div><strong>Ngày bắt đầu:</strong> <input type="date" name="startday" value={editedPromotion.startday} onChange={handleInputChange} /></div>
-                    <div><strong>Ngày kết thúc:</strong> <input type="date" name="endday" value={editedPromotion.endday} onChange={handleInputChange} /></div>
-                    <div><strong>Phần trăm giảm giá:</strong> <input type="number" name="discount" value={editedPromotion.discount} onChange={handleInputChange} /></div>
+                    <div><strong>Chương trình:</strong> <input type="text" name="name" value={editedPromotion.name} onChange={handleInputChange} /></div>
+                    <div><strong>Bắt đầu:</strong><input type="date"name="startday"value={editedPromotion.startday ? editedPromotion.startday.substring(0, 10) : ''}onChange={handleInputChange}/></div>
+                    <div><strong>Kết thúc:</strong> <input type="date"name="endday"value={editedPromotion.endday ? editedPromotion.endday.substring(0, 10) : ''}onChange={handleInputChange}/></div>
+                    <div><strong>Giảm giá:</strong> <input type="number" name="discount" value={editedPromotion.discount} onChange={handleInputChange}/></div>
                     <div><strong>Ghi chú:</strong> <input type="text" name="note" value={editedPromotion.note} onChange={handleInputChange} /></div>
                 </div>
                 <div className="promotion-actions">

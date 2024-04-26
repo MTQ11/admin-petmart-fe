@@ -26,8 +26,8 @@
 }
 
 .product-profile .image img {
-    width: 200px;
-    max-height: 200px;
+    width: 100px;
+    max-height: auto;
     border-radius: 8px; /* Giảm độ cong để ảnh trông tự nhiên hơn */
     margin: 20px 0; /* Giảm khoảng cách giữa ảnh và các phần tử khác */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng bóng để tạo sâu và sự phân biệt cho ảnh */
@@ -76,7 +76,7 @@
     background-color: #0056b3;
 }
 
-.button-delete {
+.product-profile .button-delete {
     padding: 8px 16px;
     background-color: #ff0000;
     color: white;
@@ -86,7 +86,7 @@
     transition: background-color 0.3s ease;
 }
 
-.button-delete:hover {
+.product-profile .button-delete:hover {
     background-color: #b30000;
 }
 

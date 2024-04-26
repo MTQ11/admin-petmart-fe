@@ -48,33 +48,33 @@ const Login = () => {
             <h2 className='title'>MANAGE PETMART</h2>
             <form onSubmit={handleSubmitLogin}>
                 <div className="form-group">
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username">Tài khoản:</label>
                     <input
                         className='input-login'
                         type="text"
                         id="username"
                         name="username"
-                        placeholder="Enter your username"
+                        placeholder="Nhập tài khoản"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Mật khẩu:</label>
                     <input
                         className='input-login'
                         type="password"
                         id="password"
                         name="password"
-                        placeholder="Enter your password"
+                        placeholder="Nhập mật khẩu"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button className='button-submit' type="submit">Login</button>
+                <button className='button-submit' type="submit">Đăng nhập</button>
             </form>
             <div className="forgot-password">
-                <a href="#">Forgot Password?</a>
+                <a href="#">Quên mật khẩu?</a>
             </div>
         </div>
     );

@@ -64,7 +64,7 @@ const TypeProduct = () => {
 
     const deleteProductType = async (id) => {
         try {
-            const confirmDelete = window.confirm("Are you sure you want to delete this product type?");
+            const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa nhóm sản phẩm này?");
             if (confirmDelete) {
                 const token = localStorage.getItem('token');
                 await fetch(`http://localhost:3001/type-product/delete/${id}`, {
@@ -138,7 +138,7 @@ const TypeProduct = () => {
                                     }}
                                 />
                             </td>
-                            <td><span className='product-count'>{item.productCount}</span></td>
+                            <td><b className='product-count'>{item.productCount}</b></td>
                             <td>
                                 <FontAwesomeIcon size="lg" icon={faTrash} onClick={() => deleteProductType(item._id)} />
                             </td>

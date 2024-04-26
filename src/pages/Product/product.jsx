@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './product.css';
-import { MdEdit } from "react-icons/md";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import ModalEditProduct from './modalEditProduct';
 import Pagination from '../../component/pagination/pagination';
-
+import formatCurrency from '../../utils/formatCurrency'
 
 const Product = () => {
     const [loading, setLoading] = useState(false); // Thêm trạng thái loading
@@ -13,6 +12,16 @@ const Product = () => {
     const [promotionData, setPromotionData] = useState([]);
     const [typeProductData, setTypeProductData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [filter, setFilter] = useState({
+        lable: '',
+        key: ''
+    });
+    const [sort, setSort] = useState({
+        lable: '',
+        key: ''
+    });
+
+
     const [showModal, setShowModal] = useState(false);
     const [showModalEdit, setShowModalEdit] = useState(false)
     const [selected, setSelected] = useState(null)
@@ -25,6 +34,7 @@ const Product = () => {
     const [totalItems, setTotalItems] = useState(0); // Tổng số sản phẩm
 
     const [datatFields, setDataFields] = useState({
+        idProduct: '',
         avatar: '',
         name: '',
         image: '',
@@ -40,6 +50,7 @@ const Product = () => {
     const resetData = () => {
         setAvatar(null)
         setDataFields({
+            idProduct: '',
             avatar: '',
             name: '',
             image: '',
@@ -57,12 +68,22 @@ const Product = () => {
         fetchData();
         fetchDataPromotion()
         fetchDataTypeProduct()
-    }, [currentPage, pageSize,searchTerm, updated]);
+    }, [currentPage, pageSize, searchTerm, sort, filter, updated]);
 
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3001/product/get-product?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`, {
+            let url = `http://localhost:3001/product/get-product?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
+
+            if (filter.key) {
+                url += `&filter=${filter.lable}&filter=${filter.key}`;
+            }
+
+            if (sort.key) {
+                url += `&sort=${sort.key}&sort=${sort.lable}`;
+            }
+
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,13 +95,14 @@ const Product = () => {
             const data = await response.json();
             setProducts(data.data);
             setTotalItems(data.total);
-            setTotalPages(data.totalPage); // Tính tổng số trang
+            setTotalPages(data.totalPage);
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
-            setLoading(false); // Kết thúc loading dù có lỗi hay không
+            setLoading(false);
         }
     };
+
 
     const fetchDataPromotion = async () => {
         setLoading(true);
@@ -130,6 +152,7 @@ const Product = () => {
         try {
             const token = localStorage.getItem('token');
             const newProduct = {
+                idProduct: datatFields.idProduct,
                 name: datatFields.name,
                 image: datatFields.avatar,
                 type: datatFields.type,
@@ -141,7 +164,6 @@ const Product = () => {
                 note: datatFields.note,
                 promotion: datatFields.promotion
             };
-            console.log(newProduct)
 
             const response = await fetch('http://localhost:3001/product/create-product', {
                 method: 'POST', // Sử dụng method POST thay vì GET
@@ -179,11 +201,42 @@ const Product = () => {
             setDataFields({ ...datatFields, [name]: value });
         }
     };
-    
+
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value.toLowerCase());
-    };    
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
+    };
+
+    const handleFilter = (e, lable) => {
+        setFilter({
+            lable: lable,
+            key: e.target.value.toLowerCase()
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
+    };
+
+    const handleSort = (e, lable) => {
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: lable,
+            key: e.target.value
+        })
+    };
+
 
     const handleShowModalEdit = () => {
         setShowModalEdit(false);
@@ -244,35 +297,86 @@ const Product = () => {
                     <table className="product-table">
                         <thead>
                             <tr>
+                                <th>Mã</th>
                                 <th>Ảnh</th>
                                 <th>Sản phẩm</th>
-                                <th>Loại</th>
-                                <th>Trong kho</th>
-                                <th>Đã bán</th>
                                 <th>Đơn vị</th>
-                                <th>Giá bán</th>
-                                <th>Giá nhập</th>
-                                <th>Trạng thái</th>
-                                <th>CCKM</th>
-                                <th></th>
+                                <th>Loại
+                                    <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={filter.key} onChange={(e) => handleFilter(e, 'type')}>
+                                        <option value=''>Tất cả</option>
+                                        {typeProductData.map((item) =>
+                                            <option value={item._id}>{item.name}</option>
+                                        )}
+                                    </select>
+                                </th>
+                                <th>Kho
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'countInStock')}>
+                                        <option value='asc'>Tăng</option>
+                                        <option value='desc'>Giảm</option>
+                                    </select>
+                                </th>
+                                <th>Đã bán
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'selled')}>
+                                        <option value='asc'>Tăng</option>
+                                        <option value='desc'>Giảm</option>
+                                    </select>
+                                </th>
+                                <th>Giá bán
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'price')}>
+                                        <option value='asc'>Tăng</option>
+                                        <option value='desc'>Giảm</option>
+                                    </select>
+                                </th>
+                                <th>Giá nhập
+                                    <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'costPrice')}>
+                                        <option value='asc'>Tăng</option>
+                                        <option value='desc'>Giảm</option>
+                                    </select>
+                                </th>
+                                <th>CCKM
+                                    <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={filter.key} onChange={(e) => handleFilter(e, 'promotion')}>
+                                        <option value=''>Tất cả</option>
+                                        {promotionData.map((item) =>
+                                            <option value={item._id}>{item.name}</option>
+                                        )}
+                                    </select>
+                                </th>
+                                <th style={{ width: '100px' }}>Trạng thái
+                                    <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={filter.key} onChange={(e) => handleFilter(e, 'status')}>
+                                        <option value=''>Tất cả</option>
+                                        <option value='available'>Còn hàng</option>
+                                        <option value='out of stock'>Hết hàng</option>
+                                    </select>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 products?.map(product => (
-                                    <tr key={product.id}>
+                                    <tr key={product.id} onClick={() => handleEditClick(product)} >
+                                        <td>{product?.idProduct}</td>
                                         <td><img src={product?.image} alt={product.name} /></td>
                                         <td>{product?.name}</td>
+                                        <td>{product?.unit}</td>
                                         <td>{typeProductData.find(item => item._id === product?.type)?.name || ""}</td>
                                         <td>{product?.countInStock}</td>
                                         <td>{product?.selled}</td>
-                                        <td>{product?.unit}</td>
-                                        <td>{product?.price}</td>
-                                        <td>{product?.costPrice}</td>
-                                        <td>{product?.status}</td>
+                                        <td>{formatCurrency(product?.price)}</td>
+                                        <td>{formatCurrency(product?.costPrice)}</td>
                                         <td>{promotionData.find(item => item._id === product?.promotion)?.name || ""}</td>
                                         <td>
-                                            <MdEdit style={{ width: '30px', height: '30px' }} onClick={() => handleEditClick(product)} />
+                                            {product?.status === 'available' ? (
+                                                <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'green' }} size='xl' />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faTimesCircle} style={{ color: 'red' }} size='xl' />
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -303,6 +407,10 @@ const Product = () => {
                                     onChange={handleChange}
                                 />
                                 <img className='avatar' src={avatar || datatFields.avatar} alt="Avatar" onClick={() => document.querySelector('#avatar').click()} />
+                            </div>
+                            <div>
+                                <label htmlFor="idProduct">Mã sản phẩm:</label>
+                                <input type="text" id="idProduct" idProduct="name" value={datatFields.idProduct} onChange={handleChange} />
                             </div>
                             <div>
                                 <label htmlFor="name">Tên sản phẩm:</label>

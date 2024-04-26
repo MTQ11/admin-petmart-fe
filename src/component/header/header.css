@@ -1,5 +1,6 @@
 .header {
     position: fixed; /* Đặt header với vị trí cố định */
+    width: 97.6%;
     top: 0; /* Đặt vị trí header ở đỉnh trang */
     left: 0; /* Đặt vị trí header bắt đầu từ bên trái của trang */
     right: 0; /* Đặt vị trí header kết thúc ở bên phải của trang */
@@ -7,7 +8,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 5px 10px 0 10px;
-    background-color: #f0f0f0; /* Màu nền của header */
+    background-image: linear-gradient(to left, #ffffff, #f0f0f0);
     z-index: 1000; /* Đảm bảo header hiển thị trên mọi nội dung khác */
 }
 

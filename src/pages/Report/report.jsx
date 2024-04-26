@@ -27,7 +27,6 @@ const Report = () => {
                 'token': `beare ${localStorage.getItem('token')}`
             }
         });
-        console.log(response.data)
         setRevenue(response.data.data)
     };
 
@@ -38,7 +37,6 @@ const Report = () => {
                 'token': `beare ${localStorage.getItem('token')}`
             }
         });
-        console.log(response.data)
         setCapital(response.data.data)
     };
 

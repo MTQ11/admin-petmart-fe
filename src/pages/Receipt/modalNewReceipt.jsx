@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 import './modalNewReceipt.css'
 import axios from 'axios';
 import decodeToken from '../../utils/DecodeToken';
@@ -59,7 +60,6 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
     const fetchTypeProducts = async () => {
         try {
             const response = await axios.get('http://localhost:3001/type-product/get-type-product');
-            console.log(response.data)
             setType(response.data.data)
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -72,16 +72,18 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
 
     const handleChange = (e, index) => {
         const { name, value } = e.target;
-
         if (name.startsWith('receiptItem')) {
             const updatedReceiptItems = [...newReceiptFormData.receiptItems];
             const itemKey = name.split('-')[2];
             updatedReceiptItems[index][itemKey] = value;
-            console.log(value)
-            console.log("nó: ", index, itemKey, updatedReceiptItems[index][itemKey])
             if (itemKey === 'name') {
                 const product = searchProduct(value);
                 if (product) {
+                    const existingIndex = newReceiptFormData.receiptItems.findIndex(item => item.product === product._id);
+                    if (existingIndex !== -1 && existingIndex !== index) {
+                        alert('Sản phẩm đã có trong danh sách!');
+                        return;
+                    }
                     updatedReceiptItems[index].product = product._id;
                     updatedReceiptItems[index].type = product.type;
                     updatedReceiptItems[index].unit = product.unit;
@@ -104,6 +106,11 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
             else if (itemKey === 'product') {
                 const product = searchProduct(value);
                 if (product) {
+                    const existingIndex = newReceiptFormData.receiptItems.findIndex(item => item.product === product._id);
+                    if (existingIndex !== -1 && existingIndex !== index) {
+                        alert('Sản phẩm đã có trong danh sách!');
+                        return;
+                    }
                     updatedReceiptItems[index].name = product.name;
                     updatedReceiptItems[index].type = product.type;
                     updatedReceiptItems[index].unit = product.unit;
@@ -197,26 +204,48 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
     };
 
     const handleProductSelection = (selectedProduct) => {
-        // Tạo một đối tượng mới đại diện cho ô input mới
-        const newReceiptItem = {
-            name: selectedProduct.name,
-            type: selectedProduct.type,
-            unit: selectedProduct.unit,
-            amount: selectedProduct.amount,
-            price: selectedProduct.costPrice,
-            product: selectedProduct._id,
-            isNewProduct: false
-        };
+        const existingIndex = newReceiptFormData.receiptItems.findIndex(item => item.product === selectedProduct._id);
 
-        // Tạo một bản sao của mảng receiptItems và thêm vào đối tượng mới
-        const updatedReceiptItems = [...newReceiptFormData.receiptItems, newReceiptItem];
+        if (existingIndex !== -1) {
+            alert('Sản phẩm đã có trong danh sách!');
+            return;
+        }
 
-        // Cập nhật state với receiptItems mới
-        setNewReceiptFormData(prevState => ({
-            ...prevState,
-            receiptItems: updatedReceiptItems
-        }));
+        const emptyIndex = newReceiptFormData.receiptItems.findIndex(item => item.name === '');
+
+        if (emptyIndex !== -1) {
+            const updatedReceiptItems = [...newReceiptFormData.receiptItems];
+            updatedReceiptItems[emptyIndex] = {
+                name: selectedProduct.name,
+                type: selectedProduct.type,
+                unit: selectedProduct.unit,
+                amount: selectedProduct.amount,
+                price: selectedProduct.costPrice,
+                product: selectedProduct._id,
+                isNewProduct: false
+            };
+            setNewReceiptFormData(prevState => ({
+                ...prevState,
+                receiptItems: updatedReceiptItems
+            }));
+        } else {
+            const newReceiptItem = {
+                name: selectedProduct.name,
+                type: selectedProduct.type,
+                unit: selectedProduct.unit,
+                amount: selectedProduct.amount,
+                price: selectedProduct.costPrice,
+                product: selectedProduct._id,
+                isNewProduct: false
+            };
+            const updatedReceiptItems = [...newReceiptFormData.receiptItems, newReceiptItem];
+            setNewReceiptFormData(prevState => ({
+                ...prevState,
+                receiptItems: updatedReceiptItems
+            }));
+        }
     };
+
 
     const handleSearchInputChange = (e) => {
         setSearchTerm(e.target.value);
@@ -229,7 +258,6 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
         setSelectedType(e.target.value)
         const term = searchTerm.toLowerCase(); // Lấy giá trị từ ô tìm kiếm và chuyển về chữ thường
         let filtered = products.filter(product => {
-            // Kiểm tra xem tên sản phẩm có chứa `term` (giá trị từ ô tìm kiếm) và loại sản phẩm có khớp với `selectedType` không
             return (
                 product.name.toLowerCase().includes(term) &&
                 (!e.target.value || product.type === e.target.value)
@@ -243,7 +271,6 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
         <div className="modal">
             <div className="modal-main-reciep">
                 <form className="add-receipt-form" onSubmit={handleSubmit}>
-                    {/* Phần thông tin nhà cung cấp */}
                     <div className='modal-header'>
                         <div className='modal-info'>
                             <div>
@@ -292,7 +319,6 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
                         </div>
 
                     </div>
-                    {/* Phần thông tin sản phẩm */}
                     <div className='modal-info-product'>
                         <table>
                             <thead>
@@ -354,7 +380,6 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
                             </tbody>
                         </table>
                     </div>
-                    {/* Nút điều hướng */}
                     <div className='modal-button'>
                         <button type="submit">Xác nhận</button>
                         <button type="button" onClick={handleShowModalNew}>Hủy</button>

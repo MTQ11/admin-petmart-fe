@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../../asset/image/logo.webp';
+import petmart from '../../asset/image/petmart-logo-trang.webp';
 import './header.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import Profile from '../profile/profile';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -12,17 +14,16 @@ const Header = () => {
     const { currentUser, setCurrentUser } = useAuth();
     const [userDetails, setUserDetails] = useState(null);
     const [showNotifications, setShowNotifications] = useState(false);
+    const [showModal, setShowModal] = useState(false)
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         setCurrentUser(null); // Clear current user from context
         navigate('/login');
     };
-
     useEffect(() => {
         fetchUserDetails();
     }, [currentUser]);
-    console.log(currentUser)
     const fetchUserDetails = async () => {
         try {
             const response = await fetch(`http://localhost:3001/user/get-detail/${currentUser.id}`, {
@@ -48,6 +49,9 @@ const Header = () => {
             <div className="logo">
                 <img src={logo} alt="Logo" />
             </div>
+            <div>
+                <img src={petmart} alt="petmart" style={{width: "150px"}}/>
+            </div>
             <div className="user-avatar">
                 <span>{userDetails?.email}</span>
                 <FontAwesomeIcon onClick={() => setShowNotifications(!showNotifications)} icon={faBell} style={{ fontSize: '24px', color: 'gray', paddingRight: '10px'}}/>
@@ -55,9 +59,12 @@ const Header = () => {
                 {showMenu && (
                     <div className="dropdown-menu">
                         <ul>
-                            <li>Profile</li>
-                            <li>Settings</li>
-                            <li onClick={handleLogout}>Logout</li>
+                            <li onClick={()=>{
+                                setShowModal(true)
+                                setShowMenu(false)
+                            }}>Trang cá nhân</li>
+                            <li>Cài đặt</li>
+                            <li style={{borderTop: "1px solid #ccc", fontWeight: '600'}} onClick={handleLogout}>Đăng xuất</li>
                         </ul>
                     </div>
                 )}
@@ -67,6 +74,7 @@ const Header = () => {
                 </div>
             )}
             </div>
+            {showModal && <Profile setShowModal={setShowModal} userID={currentUser.id}/>}
         </div>
     );
 };
