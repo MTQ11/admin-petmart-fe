@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './customer.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort, faSearch } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
 import Pagination from '../../component/pagination/pagination';
 import ModalEditCusomter from './modalEditCusomter';
@@ -45,7 +45,15 @@ const Customer = () => {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, pageSize, searchTerm, sort, filter, userUpdated]);
+    }, [currentPage, pageSize, sort, filter, userUpdated]);
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            fetchData();
+        }, 300); // Thời gian chờ 300ms
+    
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchTerm])
 
     const fetchData = async () => {
         setLoading(true); // Bắt đầu loading
@@ -242,7 +250,9 @@ const Customer = () => {
                         <thead>
                             <tr>
                                 <th>Ảnh</th>
-                                <th>Email</th>
+                                <th>Email
+                                <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '5px' }} />
+                                </th>
                                 <th>Tên
                                 <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
                                     <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'information.name')}>
@@ -271,7 +281,7 @@ const Customer = () => {
                         </thead>
                         <tbody>
                             {users?.map(user => (
-                                <tr key={user._id} onClick={() => handleEditClick(user)}>
+                                <tr key={user._id} onDoubleClick={() => handleEditClick(user)}>
                                     <td>
                                         <img src={user.information?.avatar} alt="Avatar" />
                                     </td>

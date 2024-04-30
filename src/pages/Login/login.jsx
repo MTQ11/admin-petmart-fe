@@ -46,7 +46,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2 className='title'>MANAGE PETMART</h2>
+            <h2 className='title'>QUẢN LÝ PETMART</h2>
             <form onSubmit={handleSubmitLogin}>
                 <div className="form-group">
                     <label htmlFor="username">Tài khoản:</label>

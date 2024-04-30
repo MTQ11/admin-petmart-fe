@@ -44,27 +44,27 @@
 .modal-list-product {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Sắp xếp theo lưới với mỗi ảnh có độ rộng tối thiểu 120px */
-    gap: 5px; /* Khoảng cách giữa các ô ảnh */
     width: 500px;
     height: 300px; /* Đặt chiều cao tối đa */
     overflow-y: auto; /* Cho phép cuộn theo trục y khi nội dung vượt quá chiều cao */
 }
 
-.product-item {
+.receipt-product-item {
     height: fit-content;
     cursor: pointer; /* Biến con trỏ thành bàn phím khi di chuột qua ảnh */
     text-align: center; /* Căn giữa văn bản trong ô */
+    margin-top: 10px;
 }
 
-.product-item p{
+.receipt-product-item p{
     text-align: center; /* Căn giữa văn bản trong ô */
     white-space: nowrap; /* Ngăn văn bản bị ngắt dòng */
     overflow: hidden; /* Ẩn văn bản bị tràn ra ngoài ô */
     text-overflow: ellipsis; /* Thêm dấu chấm (...) cho văn bản bị ẩn */
 }
 
-.product-item img {
-    width: 50px; /* Ảnh chiếm toàn bộ kích thước của ô */
+.receipt-product-item img {
+    width: 60px; /* Ảnh chiếm toàn bộ kích thước của ô */
     height: auto; /* Đảm bảo tỷ lệ khung hình được giữ nguyên */
     max-height: 100px; /* Đặt chiều cao tối đa cho ảnh */
     object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */

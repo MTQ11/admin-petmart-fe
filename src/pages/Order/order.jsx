@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort, faSearch } from '@fortawesome/free-solid-svg-icons';
 import './order.css'; // Đảm bảo import file CSS của order
 import formatDate from '../../utils/FormartDate';
 import decodeToken from '../../utils/DecodeToken';
@@ -30,6 +30,7 @@ const Order = () => {
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
     const [totalPages, setTotalPages] = useState(0); // Tổng số trang
     const [totalItems, setTotalItems] = useState(0); // Tổng số người dùng
+    const modalRef = useRef(null);
 
     useEffect(() => {
         fetchData();
@@ -182,8 +183,16 @@ const Order = () => {
         setUpdated(!updated);
     }
 
+    const handleModalClick = (event) => {
+        // Kiểm tra xem vị trí click có nằm ngoài phần nội dung của modal không
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            // Nếu click bên ngoài modal, đóng modal
+            setShowModalEdit(false);
+        }
+    };
+
     return (
-        <div className="order-container">
+        <div className="order-container" onClick={handleModalClick}Z>
             <div className="order-actions">
                 <input id='search-input' type="text" placeholder="Tìm kiếm..." value={searchTerm} onChange={handleSearch} />
             </div>
@@ -196,7 +205,9 @@ const Order = () => {
                     <table className="order-table">
                         <thead>
                             <tr>
-                                <th>Mã hóa đơn</th>
+                                <th>Mã hóa đơn
+                                <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '5px' }} />
+                                </th>
                                 <th>Số điện thoại</th>
                                 <th>Khách hàng
                                     <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
@@ -233,7 +244,7 @@ const Order = () => {
                         </thead>
                         <tbody>
                             {orders?.map(order => (
-                                <tr key={order._id} onClick={() => handleEditClick(order)}>
+                                <tr key={order._id} onDoubleClick={() => handleEditClick(order)}>
                                     <td>{order?._id}</td>
                                     <td>{formatPhone(order?.shippingAddress.phone)}</td>
                                     <td>{order?.shippingAddress.fullName}</td>

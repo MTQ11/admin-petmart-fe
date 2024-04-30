@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
 import axios from 'axios';
 import baseURL from '../../utils/api';
@@ -19,6 +21,7 @@ const Profile = ({ setShowModal, userID }) => {
         }
     });
     const [newAvatar, setNewAvatar] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -27,7 +30,7 @@ const Profile = ({ setShowModal, userID }) => {
                 const response = await axios.get(`${baseURL}/user/get-detail/${userID}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'token': `beare ${token}`
+                        'token': `Bearer ${token}`
                     }
                 });
 
@@ -45,8 +48,10 @@ const Profile = ({ setShowModal, userID }) => {
                         address: userData.information?.address || '',
                     }
                 });
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching user details:', error);
+                setLoading(false);
             }
         };
 
@@ -112,13 +117,16 @@ const Profile = ({ setShowModal, userID }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-                <div className='user-main'>
-                    <div className="user-profile">
+        <div className='user-main'>
+            <div className="user-profile">
+                {loading && ( // Kiểm tra trạng thái loading
+                    <div className="loading-overlay">
+                        <FontAwesomeIcon icon={faSpinner} className="fa-spin" size="2x" />
+                    </div>
+                )}
+                {!loading && ( // Hiển thị thông tin người dùng khi không còn loading
+                    <>
                         <div className="avatar">
-                            {/* Input file được điều chỉnh hiển thị dựa trên giá trị của editMode */}
                             {editMode && (
                                 <input
                                     name="avatar"
@@ -128,7 +136,6 @@ const Profile = ({ setShowModal, userID }) => {
                                     onChange={handleInputChange}
                                 />
                             )}
-                            {/* Ảnh hiển thị avatar, có thể click để mở input file */}
                             <img
                                 src={newAvatar || editedUser.information.avatar}
                                 alt="Avatar"
@@ -162,8 +169,8 @@ const Profile = ({ setShowModal, userID }) => {
                             {editMode && <button onClick={saveChanges}>Lưu</button>}
                             <button onClick={() => setShowModal(false)}>Đóng</button>
                         </div>
-                    </div>
-                </div>
+                    </>
+                )}
             </div>
         </div>
     );

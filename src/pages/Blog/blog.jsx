@@ -66,7 +66,7 @@ const Blog = () => {
                     <>
                         <div className='post-form-action'>
                             <div className="category-menu">
-                                <button onClick={() => setSelectedCategory('')} className={selectedCategory === '' ? 'selected' : ''}>All Posts</button>
+                                <button onClick={() => setSelectedCategory('')} className={selectedCategory === '' ? 'selected' : ''}>Tất cả</button>
                                 {categories.map(category => (
                                     <button
                                         key={category}

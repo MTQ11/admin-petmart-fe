@@ -3,7 +3,7 @@ import './modalEditCustomer.css';
 import formatDate from '../../utils/FormartDate';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faClose } from '@fortawesome/free-solid-svg-icons';
 import formatCurrency from '../../utils/formatCurrency';
 import formatPhone from '../../utils/formatPhoneNumber';
 import baseURL from '../../utils/api';
@@ -24,6 +24,7 @@ const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
             city: user.information?.city,
         }
     });
+    const [loading, setLoading] = useState(true);
     const [newAvatar, setNewAvatar] = useState(null);
     const [orderHistory, setOrderHistory] = useState([]);
 
@@ -39,6 +40,7 @@ const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
                     }
                 });
                 setOrderHistory(response.data.data);
+                setLoading(false); 
             } catch (error) {
                 console.error('Lỗi khi lấy lịch sử hóa đơn:', error);
             }
@@ -105,7 +107,6 @@ const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
         order.orderItems.forEach(item => {
             totalOrderPrice += item.price * item.amount;
         });
-        // Cộng thêm phí vận chuyển vào tổng giá trị
         totalOrderPrice += order.shippingPrice;
         return totalOrderPrice;
     };
@@ -152,7 +153,7 @@ const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
                         </div>
                         <div className="detail-row">
                             <strong>Số điện thoại:</strong>
-                            <p>{editedUser.information.phone}</p>
+                            <p>{formatPhone(editedUser.information.phone)}</p>
                             {/* <input type="tel" name="phone" value={editedUser.information.phone} onChange={handleInputChange} /> */}
                         </div>
                         <div className="detail-row">
@@ -167,58 +168,64 @@ const ModalEditCusomter = ({ user, handleShowModalEdit, deleteUser }) => {
                     </div>
                     <button className='button-delete' onClick={() => deleteUser(editedUser.id)}>Xóa</button>
                 </div>
-                {orderHistory.length > 0 && (
-                    <div className="order-history">
-                        <h3>Lịch sử hóa đơn({orderHistory.length})</h3>
-                        <ul>
-                            {orderHistory.map(order => (
-                                <li className='order' key={order._id}>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th colSpan="2">Thông tin</th>
-                                                <td colSpan="3">{order.shippingAddress.fullName} - {formatPhone(order.shippingAddress.phone)} <br/> {order.shippingAddress.address}, {order.shippingAddress.city}</td>
-                                            </tr>
-                                            <tr>
-                                                <th colSpan="2">Thời gian</th>
-                                                <td colSpan="3">{formatDate(order.createdAt)}</td>
-                                            </tr>
-                                            <tr>
-                                                <th colSpan="2">Mã hóa đơn</th>
-                                                <td colSpan="3">{order._id}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Mã</th>
-                                                <th>Tên sản phẩm</th>
-                                                <th>Đơn giá</th>
-                                                <th>Số lượng</th>
-                                                <th>Tổng giá</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {order.orderItems.map(item => (
-                                                <tr key={item.id}>
-                                                    <td>{item.idProduct}</td>
-                                                    <td>{item.name}</td>
-                                                    <td>{formatCurrency(item.price)}</td>
-                                                    <td>{item.amount}</td>
-                                                    <td>{formatCurrency(item.price * item.amount)}</td>
-                                                </tr>
-                                            ))}
-                                            <tr> {/* Dòng cuối cùng để hiển thị tổng tiền phiếu nhập */}
-                                                <td colSpan="4"><b>Phí vận chuyển</b></td>
-                                                <td colSpan="4">{order.shippingPrice}</td>
-                                            </tr>
-                                            <tr> {/* Dòng cuối cùng để hiển thị tổng tiền phiếu nhập */}
-                                                <td colSpan="4"><b>Tổng hóa đơn</b></td>
-                                                <td>{formatCurrency(calculateOrderTotal(order))}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </li>
-                            ))}
-                        </ul>
+                {loading ? (
+                    <div className="loading-overlay">
+                        <FontAwesomeIcon icon={faSpinner} className="fa-spin" size="1x" />
                     </div>
+                ) : (
+                    orderHistory.length > 0 && (
+                        <div className="order-history">
+                            <h3>Lịch sử hóa đơn({orderHistory.length})</h3>
+                            <ul>
+                                {orderHistory.map(order => (
+                                    <li className='order' key={order._id}>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th colSpan="2">Thông tin</th>
+                                                    <td colSpan="3">{order.shippingAddress.fullName} - {formatPhone(order.shippingAddress.phone)} <br/> {order.shippingAddress.address}, {order.shippingAddress.city}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th colSpan="2">Thời gian</th>
+                                                    <td colSpan="3">{formatDate(order.createdAt)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th colSpan="2">Mã hóa đơn</th>
+                                                    <td colSpan="3">{order._id}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mã</th>
+                                                    <th>Tên sản phẩm</th>
+                                                    <th>Đơn giá</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Tổng giá</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {order.orderItems.map(item => (
+                                                    <tr key={item.id}>
+                                                        <td>{item.idProduct}</td>
+                                                        <td>{item.name}</td>
+                                                        <td>{formatCurrency(item.price)}</td>
+                                                        <td>{item.amount}</td>
+                                                        <td>{formatCurrency(item.price * item.amount)}</td>
+                                                    </tr>
+                                                ))}
+                                                <tr> {/* Dòng cuối cùng để hiển thị tổng tiền phiếu nhập */}
+                                                    <td colSpan="4"><b>Phí vận chuyển</b></td>
+                                                    <td colSpan="4">{order.shippingPrice}</td>
+                                                </tr>
+                                                <tr> {/* Dòng cuối cùng để hiển thị tổng tiền phiếu nhập */}
+                                                    <td colSpan="4"><b>Tổng hóa đơn</b></td>
+                                                    <td>{formatCurrency(calculateOrderTotal(order))}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )
                 )}
             </div>
         </div>

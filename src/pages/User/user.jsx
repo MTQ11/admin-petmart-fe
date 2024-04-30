@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './user.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort, faSearch } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
 import ModalEditUser from './modalEditUser';
 import Pagination from '../../component/pagination/pagination';
 import baseURL from '../../utils/api'
-
 
 const User = () => {
     const [users, setUsers] = useState([]);
@@ -45,13 +44,21 @@ const User = () => {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, pageSize, searchTerm, sort, filter, userUpdated]);
+    }, [currentPage, pageSize, sort, filter, userUpdated]);
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            fetchData();
+        }, 300); // Thời gian chờ 300ms
+    
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchTerm])
+    
 
     const fetchData = async () => {
         setLoading(true); // Bắt đầu loading
         try {
             let url = `${baseURL}/user/getMember?limit=${pageSize}&page=${currentPage - 1}&keysearch=${searchTerm}`;
-
             if (filter.key) {
                 url += `&filter=${filter.lable}&filter=${filter.key}`;
             }
@@ -184,6 +191,14 @@ const User = () => {
     const handleSearchChange = (e) => {
         const searchTerm = e.target.value.toLowerCase();
         setSearchTerm(searchTerm);
+        setFilter({
+            lable: '',
+            key: ''
+        })
+        setSort({
+            lable: '',
+            key: ''
+        })
     };
 
     const handleFilter = (e, lable) => {
@@ -246,20 +261,22 @@ const User = () => {
                         <thead>
                             <tr>
                                 <th>Ảnh</th>
-                                <th>Email</th>
-                                <th>Vai trò
-                                    <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
-                                    <select className='select-table' value={filter.key} onChange={(e) => handleFilter(e, 'role')}>
-                                        <option value=''>Tất cả</option>
-                                        <option value='member'>Thành viên</option>
-                                        <option value='admin'>Quản trị viên</option>
-                                    </select>
+                                <th>Email
+                                <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '5px' }} />
                                 </th>
                                 <th>Tên
                                     <FontAwesomeIcon icon={faSort} style={{ marginLeft: '5px' }} />
                                     <select className='select-table' value={sort.key} onChange={(e) => handleSort(e, 'information.name')}>
                                         <option value='asc'>A-Z</option>
                                         <option value='desc'>Z-A</option>
+                                    </select>
+                                </th>
+                                <th>Vai trò
+                                    <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
+                                    <select className='select-table' value={filter.key} onChange={(e) => handleFilter(e, 'role')}>
+                                        <option value=''>Tất cả</option>
+                                        <option value='member'>Thành viên</option>
+                                        <option value='admin'>Quản trị viên</option>
                                     </select>
                                 </th>
                                 <th>Giới tính
@@ -283,17 +300,17 @@ const User = () => {
                         </thead>
                         <tbody>
                             {users?.map(user => (
-                                <tr key={user._id} onClick={() => handleEditClick(user)} >
+                                <tr key={user._id} onDoubleClick={() => handleEditClick(user)} >
                                     <td>
                                         <img src={user.information?.avatar} alt="Avatar" />
                                     </td>
                                     <td>{user.email}</td>
+                                    <td>{user.information?.name}</td>
                                     <td>
                                         {user.role === 'member' && 'Thành viên'}
                                         {user.role === 'admin' && 'Quản trị viên'}
                                         {user.role === 'customer' && 'Khách hàng'}
                                     </td>
-                                    <td>{user.information?.name}</td>
                                     <td>{user.information?.gender}</td>
                                     <td>{user.information?.birthday ? formatDate(user.information.birthday) : null}</td>
                                     <td>0{user.information?.phone}</td>

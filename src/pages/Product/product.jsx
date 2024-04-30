@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './product.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faFilter, faSort, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort, faTimesCircle, faCheckCircle, faSearch } from '@fortawesome/free-solid-svg-icons';
 import ModalEditProduct from './modalEditProduct';
 import Pagination from '../../component/pagination/pagination';
 import formatCurrency from '../../utils/formatCurrency'
@@ -300,7 +300,9 @@ const Product = () => {
                             <tr>
                                 <th>Mã</th>
                                 <th>Ảnh</th>
-                                <th>Sản phẩm</th>
+                                <th>Sản phẩm
+                                <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '5px' }} />
+                                </th>
                                 <th>Đơn vị</th>
                                 <th>Loại
                                     <FontAwesomeIcon icon={faFilter} style={{ marginLeft: '5px' }} />
@@ -361,7 +363,7 @@ const Product = () => {
                         <tbody>
                             {
                                 products?.map(product => (
-                                    <tr key={product.id} onClick={() => handleEditClick(product)} >
+                                    <tr key={product.id} onDoubleClick={() => handleEditClick(product)} >
                                         <td>{product?.idProduct}</td>
                                         <td><img src={product?.image} alt={product.name} /></td>
                                         <td>{product?.name}</td>

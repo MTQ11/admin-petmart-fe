@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import './promotion.css';
 import formatDate from '../../utils/FormartDate';
 import ModalEditPromotion from './modalEditPromotion';
@@ -149,7 +149,9 @@ const Promotion = () => {
                     <table className="promotion-table">
                         <thead>
                             <tr>
-                                <th>Tên</th>
+                                <th>Tên
+                                <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '5px' }} />
+                                </th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
                                 <th>Phần trăm (%)</th>
@@ -160,7 +162,7 @@ const Promotion = () => {
                             {
                                 promotions
                                     .map(promotion => (
-                                        <tr key={promotion.id} onClick={() => handleEditClick(promotion)} >
+                                        <tr key={promotion.id} onDoubleClick={() => handleEditClick(promotion)} >
                                             <td>{promotion?.name}</td>
                                             <td>{promotion?.startday ? formatDate(promotion.startday) : null}</td>
                                             <td>{promotion?.endday ? formatDate(promotion.endday) : null}</td>

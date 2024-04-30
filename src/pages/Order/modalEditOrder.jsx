@@ -78,13 +78,17 @@ const ModalEditOrder = ({ order, handleShowModalEdit, deleteOrder, confirmOrder 
                     <div>
                         <div><strong>Ngày lập:</strong> <div className="paymentMethod">{formatDate(editedOrder.createdAt)}</div></div>
                         <div><strong>Phương thức:</strong> <div className="paymentMethod">{editedOrder.paymentMethod}</div></div>
-                        <div><strong>Thanh toán:</strong> <div className="isPaid">{editedOrder.isPaid ? 'Đã thanh' : 'Thanh toán khi nhận'}</div></div>
+                        <div><strong>Thanh toán:</strong> <div className="isPaid">{editedOrder.isPaid ? 'Đã thanh toán' : 'Thanh toán khi nhận'}</div></div>
                         <div><strong>Vận chuyển:</strong> <div className="isDelivered">{editedOrder.isDelivered ? 'Đã vận chuyển' : 'Chưa vận chuyển'}</div></div>
                     </div>
                 </div>
                 <div className="order-details-product">
                     <table>
                         <thead>
+                            <tr>
+                                <th colSpan="2"><b>Mã hóa đơn</b></th>
+                                <td colSpan="3">{order._id}</td>
+                            </tr>
                             <tr>
                                 <th>Mã</th>
                                 <th>Tên sản phẩm</th>

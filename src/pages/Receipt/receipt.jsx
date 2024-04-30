@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './receipt.css'
 import { MdEdit } from 'react-icons/md';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faFilter, faSort, faSearch } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../utils/FormartDate';
 import ModalEditReceipt from './modalEditReceipt';
 import ModalNewReceipt from './modalNewReceipt';
@@ -164,7 +164,9 @@ const Receipt = () => {
                     <table className="receipt-table">
                         <thead>
                             <tr>
-                                <th>Mã</th>
+                                <th>Mã phiếu nhập
+                                <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '5px' }} />
+                                </th>
                                 <th>Nhà cung cấp</th>
                                 <th>Địa chỉ</th>
                                 <th>SĐT</th>
@@ -186,7 +188,7 @@ const Receipt = () => {
                         </thead>
                         <tbody>
                             {receipts?.map(receipt => (
-                                <tr key={receipt._id} onClick={() => handleEditClick(receipt)} >
+                                <tr key={receipt._id} onDoubleClick={() => handleEditClick(receipt)} >
                                     <td>{receipt?._id}</td>
                                     <td>{receipt?.receivedFrom.fullName}</td>
                                     <td>{receipt?.receivedFrom.address}</td>

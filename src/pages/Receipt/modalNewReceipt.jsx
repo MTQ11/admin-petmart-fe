@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose, faTrash, faAdd } from '@fortawesome/free-solid-svg-icons';
 import './modalNewReceipt.css'
 import axios from 'axios';
 import decodeToken from '../../utils/DecodeToken';
@@ -311,7 +312,7 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
                             </select>
                             <div className='modal-list-product'>
                                 {filteredProducts.map(product => (
-                                    <div key={product._id} className="product-item" onClick={() => handleProductSelection(product)}>
+                                    <div key={product._id} className="receipt-product-item" onClick={() => handleProductSelection(product)}>
                                         <img src={product.image} alt={product.name} />
                                         <p>{product.name}</p>
                                     </div>
@@ -332,7 +333,7 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
                                     <th>Số lượng</th>
                                     <th>Giá nhập</th>
                                     <th>
-                                        <button type="button" onClick={addRow}>Thêm hàng</button>
+                                        <FontAwesomeIcon icon={faAdd} onClick={addRow} style={{ color: 'green', fontSize: '20px', cursor: 'pointer' }}/>
                                     </th>
                                 </tr>
                             </thead>
@@ -374,8 +375,8 @@ const ModalNewReceipt = ({ handleShowModalNew }) => {
                                             <input type="text" name={`receiptItem-${index}-price`} value={item.price} onChange={(e) => handleChange(e, index)} />
                                         </td>
                                         <td>
-                                            <button type="button" onClick={() => removeRow(index)}>x</button>
-                                        </td>
+                                            <FontAwesomeIcon icon={faTrash} onClick={() => removeRow(index)} style={{ cursor: 'pointer' }}/>
+                                        </td> 
                                     </tr>
                                 ))}
                             </tbody>
