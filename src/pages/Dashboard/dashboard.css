@@ -79,6 +79,7 @@
 
 /* Thông báo khi không có đơn hàng */
 .no-orders-message {
+    width: 95%;
     padding: 20px;
     background-color: #f8d7da; /* Màu đỏ nhạt */
     border: 1px solid #f5c6cb; /* Đường viền đỏ */
@@ -112,16 +113,39 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
 }
 
+/* Định dạng chung cho bảng chi tiết đơn hàng */
 .table-detail-order {
-    width: 100%; /* Make table full width */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-.table-detail-order th,
-.table-detail-order td {
-    border: 1px solid #ccc; /* Add border */
-    padding: 8px;
-    text-align: left; /* Align text left */
+/* Định dạng tiêu đề của bảng */
+.table-detail-order thead th {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 5px;
 }
+
+/* Định dạng dòng dữ liệu trong tbody */
+.table-detail-order tbody td {
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+/* Định dạng dòng cuối cùng của bảng */
+.table-detail-order tbody tr:last-child {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+
+/* Định dạng hover cho dòng dữ liệu */
+.table-detail-order tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
 
 .product-item:nth-child(even) {
     background-color: #f2f2f2; /* Add background color for header */

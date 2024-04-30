@@ -160,7 +160,7 @@ const Dashboard = () => {
                         </thead>
                         <tbody>
                             {ordersToday.map(order => (
-                                <tr key={order._id} onClick={() => ShowDetailOrder(order)}>
+                                <tr key={order._id} onDoubleClick={() => ShowDetailOrder(order)}>
                                     <td>{order._id}</td>
                                     <td>{getHour(order.createdAt)}</td>
                                     <td>{order.shippingAddress.fullName}</td>
