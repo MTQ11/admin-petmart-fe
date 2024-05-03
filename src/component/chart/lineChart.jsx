@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 import baseURL from '../../utils/api';
+import decodeToken from '../../utils/DecodeToken';
 
 const RevenueChart = ({ setTotalRevenue, setTotalOrder }) => {
     const chartRef = useRef(null);
@@ -15,29 +16,22 @@ const RevenueChart = ({ setTotalRevenue, setTotalOrder }) => {
     
     const handleLineChart = async () => {
         try {
-            if (chartInstance) { // Kiểm tra xem chartInstance và chartInstance.id tồn tại trước khi truy cập
-                chartInstance.destroy(); // Huỷ bỏ biểu đồ cũ nếu tồn tại
+            if (chartInstance) {
+                chartInstance.destroy();
             }
-
+    
+            const token = localStorage.getItem('token');
+            const {role} = decodeToken(token); // Assuming you have a function to decode the token and extract the role
             const response = await axios.get(`${baseURL}/report/get-revenue-month?year=${selectedYear}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'token': `beare ${localStorage.getItem('token')}`
+                    'token': `bearer ${token}`
                 }
             });
             const data = response.data.data;
-            setTotalRevenue(response.data.totalRevenue)
+            setTotalRevenue(response.data.totalRevenue);
             const revenueByMonthArray = data.map(item => item.totalRevenue);
-
-            const responseCapital = await axios.get(`${baseURL}/report/get-capital-month?year=${selectedYear}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': `beare ${localStorage.getItem('token')}`
-                }
-            });
-            const dataCapital = responseCapital.data.data;
-            const capitalByMonthArray = dataCapital.map(item => item.totalCapital);
-
+    
             const chartData = {
                 labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                 datasets: [{
@@ -45,17 +39,28 @@ const RevenueChart = ({ setTotalRevenue, setTotalOrder }) => {
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1,
-                    data: revenueByMonthArray, // Dữ liệu doanh thu của từng tháng
-                }, {
+                    data: revenueByMonthArray,
+                }]
+            };
+            if (role === 'admin') {
+                const responseCapital = await axios.get(`${baseURL}/report/get-capital-month?year=${selectedYear}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': `bearer ${token}`
+                    }
+                });
+                const dataCapital = responseCapital.data.data;
+                const capitalByMonthArray = dataCapital.map(item => item.totalCapital);
+    
+                chartData.datasets.push({
                     label: 'Hàng nhập',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1,
                     data: capitalByMonthArray
-                }]
-            };
-
-            // Tạo hoặc cập nhật biểu đồ
+                });
+            }
+    
             const ctx = chartRef.current.getContext('2d');
             const newChartInstance = new Chart(ctx, {
                 type: 'line',
@@ -68,7 +73,7 @@ const RevenueChart = ({ setTotalRevenue, setTotalOrder }) => {
                     }
                 }
             });
-            setChartInstance(newChartInstance); // Cập nhật biến state chartInstance với biểu đồ mới
+            setChartInstance(newChartInstance);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
